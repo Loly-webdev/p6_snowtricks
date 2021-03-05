@@ -7,6 +7,10 @@
         "php": ">=7.2.5",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "composer/package-versions-deprecated": "1.11.99.1",
+        "doctrine/doctrine-bundle": "^2.2",
+        "doctrine/doctrine-migrations-bundle": "^3.0",
+        "doctrine/orm": "^2.8",
         "sensio/framework-extra-bundle": "^6.1",
         "symfony/apache-pack": "^1.0",
         "symfony/asset": "5.2.*",
@@ -16,6 +20,8 @@
         "symfony/form": "5.2.*",
         "symfony/framework-bundle": "5.2.*",
         "symfony/mailer": "5.2.*",
+        "symfony/proxy-manager-bridge": "5.2.*",
+        "symfony/security-bundle": "5.2.*",
         "symfony/twig-bundle": "^5.2",
         "symfony/validator": "5.2.*",
         "symfony/webpack-encore-bundle": "^1.11",
@@ -24,8 +30,10 @@
         "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
         "phpstan/phpstan": "^0.12.80",
         "roave/security-advisories": "dev-master",
+        "symfony/maker-bundle": "^1.29",
         "symfony/stopwatch": "^5.2",
         "symfony/web-profiler-bundle": "^5.2"
     },
