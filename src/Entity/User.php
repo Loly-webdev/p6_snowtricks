@@ -8,11 +8,13 @@ use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity(fields={"username"}, message="There is already an account with this username")
  */
 class User implements UserInterface
 {
@@ -21,7 +23,7 @@ class User implements UserInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
@@ -29,12 +31,12 @@ class User implements UserInterface
      * minMessage="Votre pseudo doit contenir au moins 2 caractères.",
      * maxMessage="Votre pseudo doit contenir moins de 50 caractères.")
      */
-    private $username;
+    private string $username;
 
     /**
      * @ORM\Column(type="json")
      */
-    private $roles = [];
+    private array $roles = [];
 
     /**
      * @var string The hashed password
@@ -42,7 +44,7 @@ class User implements UserInterface
      * @Assert\Length(min=5,
      * minMessage="Votre mot de passe doit contenir au moins 5 caractères.")
      */
-    private $password;
+    private string $password;
 
     /**
      * @Assert\Length(min=5,
@@ -50,38 +52,43 @@ class User implements UserInterface
      * @Assert\EqualTo(propertyPath="password",
      * message="Les mots de passe saisies sont différents")
      */
-    private $passwordVerification;
+    private ?string $passwordVerification;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $created_at;
+    private DateTime $created_at;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Email(message="Cette adresse email n'est pas valide.")
      */
-    private $email;
+    private ?string $email;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $profile_picture;
+    private ?string $profile_picture;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
      */
-    private $activation_token;
+    private ?string $activation_token;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
      */
-    private $reset_token;
+    private ?string $reset_token;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user", orphanRemoval=true)
      */
     private $comments;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private bool $isVerified = false;
 
     /**
      * User constructor.
@@ -107,7 +114,7 @@ class User implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->username;
+        return $this->username;
     }
 
     /**
@@ -346,5 +353,22 @@ class User implements UserInterface
         }
 
         return $this;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getIsVerified(): ?bool
+    {
+        return $this->isVerified;
     }
 }

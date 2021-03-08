@@ -18,7 +18,7 @@ class AppFixtures extends Fixture
     /**
      * @var UserPasswordEncoderInterface
      */
-    private $encoder;
+    private UserPasswordEncoderInterface $encoder;
 
     /**
      * AppFixtures constructor.
@@ -43,7 +43,7 @@ class AppFixtures extends Fixture
             ->setUsername('eva')
             ->setEmail('eva@gmail.com')
             ->setPassword($password)
-            ->setRoles(['ROLE_USER'])
+            ->setRoles((array)'ROLE_USER')
             ->setProfilePicture('profile-picture-default.jpeg')
             ->setCreatedAt(new DateTime());
         $manager->persist($user);
@@ -54,7 +54,7 @@ class AppFixtures extends Fixture
             ->setUsername('vincent')
             ->setEmail('vincent@gmail.com')
             ->setPassword($password)
-            ->setRoles(['ROLE_USER'])
+            ->setRoles((array)'ROLE_USER')
             ->setProfilePicture('vince-profile.png')
             ->setCreatedAt(new DateTime());
         $manager->persist($user1);
@@ -65,7 +65,7 @@ class AppFixtures extends Fixture
             ->setUsername('marie')
             ->setEmail('marie@gmail.com')
             ->setPassword($password)
-            ->setRoles(['ROLE_USER'])
+            ->setRoles((array)'ROLE_USER')
             ->setProfilePicture('marie-profile.png')
             ->setCreatedAt(new DateTime());
         $manager->persist($user2);
@@ -317,5 +317,4 @@ class AppFixtures extends Fixture
 
         $manager->flush();
     }
-
 }

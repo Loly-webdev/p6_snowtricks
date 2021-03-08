@@ -1,0 +1,22 @@
+<html lang="fr">
+<head>
+    <title>{{ email.subject }}</title>
+</head>
+<body>
+<div>
+    <p>
+        Bonjour {{ email.toName }},
+        <br>
+        pour devenir membre de la communauté Snowtricks, il ne vous reste plus qu'à activer votre compte.
+        <br>
+        Veuillez cliquer sur le lien ci-dessous :
+        <br>
+        <a href="{{ absolute_url(path('activation', {'token': token})) }}">
+            Activer mon compte
+        </a>
+        <br>
+        Merci et à bientôt sur Snowtricks.
+    </p>
+</div>
+</body>
+</html>
