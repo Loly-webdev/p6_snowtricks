@@ -38,37 +38,48 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $user     = new User();
-        $password = $this->encoder->encodePassword($user, 'eva');
-        $user
-            ->setUsername('eva')
-            ->setEmail('eva@gmail.com')
-            ->setPassword($password)
-            ->setRoles((array)'ROLE_USER')
-            ->setProfilePicture('profile-picture-default.jpeg')
-            ->setCreatedAt(new DateTime());
+        $password = $this->encoder->encodePassword($user, 'now');
+        $user->setUsername('Nowhere')
+              ->setEmail('eva@gmail.com')
+              ->setPassword($password)
+              ->setRoles(['ROLE_ADMIN'])
+              ->setProfilePicture('nowhere-profile.jpeg')
+              ->setCreatedAt(new DateTime())
+              ->setIsVerified(1);
         $manager->persist($user);
 
-        $user1    = new User();
-        $password = $this->encoder->encodePassword($user1, 'vincent');
-        $user1
-            ->setUsername('vincent')
-            ->setEmail('vincent@gmail.com')
-            ->setPassword($password)
-            ->setRoles((array)'ROLE_USER')
-            ->setProfilePicture('vince-profile.png')
-            ->setCreatedAt(new DateTime());
+        $user1     = new User();
+        $password = $this->encoder->encodePassword($user1, 'Banner');
+        $user1->setUsername('Bruce')
+              ->setEmail('bruce_banner@gmail.com')
+              ->setPassword($password)
+              ->setRoles(['ROLE_USER'])
+              ->setProfilePicture('profile-picture-default.jpeg')
+              ->setCreatedAt(new DateTime())
+              ->setIsVerified(1);
         $manager->persist($user1);
 
         $user2    = new User();
-        $password = $this->encoder->encodePassword($user2, 'marie');
-        $user2
-            ->setUsername('marie')
-            ->setEmail('marie@gmail.com')
-            ->setPassword($password)
-            ->setRoles((array)'ROLE_USER')
-            ->setProfilePicture('marie-profile.png')
-            ->setCreatedAt(new DateTime());
+        $password = $this->encoder->encodePassword($user2, 'kent');
+        $user2->setUsername('Clark')
+              ->setEmail('clark.kentt@gmail.com')
+              ->setPassword($password)
+              ->setRoles(['ROLE_USER'])
+              ->setProfilePicture('clark-profile.png')
+              ->setCreatedAt(new DateTime())
+              ->setIsVerified(1);
         $manager->persist($user2);
+
+        $user3    = new User();
+        $password = $this->encoder->encodePassword($user3, 'prince');
+        $user3->setUsername('Diana')
+              ->setEmail('diana.prince@gmail.com')
+              ->setPassword($password)
+              ->setRoles((array)'ROLE_USER')
+              ->setProfilePicture('diana-profile.png')
+              ->setCreatedAt(new DateTime())
+              ->setIsVerified(1);
+        $manager->persist($user3);
 
         $video1 = new Video();
         $video1
@@ -302,7 +313,7 @@ class AppFixtures extends Fixture
         $comment1 = new Comment();
         $comment1
             ->setCreatedAt(new DateTime())
-            ->setUser($user)
+            ->setUser($user3)
             ->setTrick($trick1)
             ->setContent('Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.');
         $manager->persist($comment1);

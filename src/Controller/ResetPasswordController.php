@@ -12,6 +12,7 @@ use Exception;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -55,6 +56,7 @@ class ResetPasswordController extends AbstractController
      * @param Mailer         $mailer
      *
      * @return RedirectResponse|Response
+     * @throws TransportExceptionInterface
      */
     public function forgottenPassword(Request $request, UserRepository $userRepository, Mailer $mailer)
     {
@@ -63,7 +65,7 @@ class ResetPasswordController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $user  = $userRepository->findOneByEmail($data['email']);
+            $user  = $userRepository->findOneBy($data['email']);
 
             if (!$user) {
                 $this->addFlash('error', 'Cette adresse e-mail est inconnue');
@@ -99,13 +101,13 @@ class ResetPasswordController extends AbstractController
 
     /**
      * @Route("/réinitialisation/{id}/{token}", name="reset_password")
-     * @param Request $request
-     * @param User    $user
-     * @param         $token
+     * @param Request                 $request
+     * @param User                    $user
+     * @param TokenGeneratorInterface $token
      *
      * @return RedirectResponse|Response
      */
-    public function resetPassword(Request $request, User $user, $token)
+    public function resetPassword(Request $request, User $user, TokenGeneratorInterface $token)
     {
         if ($user->getResetToken() === null || $token !== $user->getResetToken()) {
 

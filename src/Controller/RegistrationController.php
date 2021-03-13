@@ -32,13 +32,13 @@ class RegistrationController extends AbstractController
     /**
      * @var TokenGeneratorInterface
      */
-    private TokenGeneratorInterface $tokenGenerator;
+    private TokenGeneratorInterface $token;
 
-    public function __construct(EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder, TokenGeneratorInterface $tokenGenerator)
+    public function __construct(EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder, TokenGeneratorInterface $token)
     {
         $this->manager        = $manager;
         $this->encoder        = $encoder;
-        $this->tokenGenerator = $tokenGenerator;
+        $this->token = $token;
     }
 
     /**
@@ -67,8 +67,9 @@ class RegistrationController extends AbstractController
                 $user->setProfilePicture('profile-picture-default.png');
             }
 
-            $user->setPassword($this->encoder->encodePassword($user, $user->getPassword()));
-            $user->setActivationToken($this->tokenGenerator->generateToken());
+            $user->setRoles(['ROLE_USER'])
+                 ->setPassword($this->encoder->encodePassword($user, $user->getPassword()))
+                 ->setActivationToken($this->token->generateToken());
             $this->manager->persist($user);
             $this->manager->flush();
 
@@ -104,7 +105,8 @@ class RegistrationController extends AbstractController
             throw $this->createNotFoundException('Cet utilisateur n\'existe pas');
         }
 
-        $user->setActivationToken(null);
+        $user->setActivationToken(null)
+             ->setIsVerified(1);
 
         $this->manager->persist($user);
         $this->manager->flush();

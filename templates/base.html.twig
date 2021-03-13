@@ -14,14 +14,14 @@
         {{ include('partial/_nav.html.twig') }}
     </header>
     <main class="mt-5 mx-0 p-0">
-        {% for label, messages in app.flashes %}
-            <div class="{{ label }}">4
-                {% for message in messages %}
-                    <p>{{ message }}</p>
-                {% endfor %}
-            </div>
-        {% endfor %}
         <div class="container-fluid px-4 py-5">
+            {% for label, messages in app.flashes %}
+                <div class="alert alert-{{ label }}">
+                    {% for message in messages %}
+                        <p class="text-center">{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endfor %}
             {% block content %}{% endblock %}
         </div>
     </main>
