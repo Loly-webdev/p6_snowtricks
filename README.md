@@ -21,9 +21,7 @@ site to make this sport known to the general public and help in the learning of 
     composer install
 ```
 
-4. Download and install the project's front-end dependencies with [Npm](https://www.npmjs.com/get-npm)
-   and [Yarn](https://yarnpkg.com/) :
+4. Starting the Symfony server :
 ```shell
-    npm install
-    yarn install
+    symfony server:start
 ```

@@ -65,7 +65,12 @@
     "scripts": {
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+            "assets:install %PUBLIC_DIR%": "symfony-cmd",
+            "post-install-cmd": [
+                "cp -R config/.env.sample config/.env",
+                "npm install",
+                "yarn install"
+            ]
         },
         "post-install-cmd": [
             "@auto-scripts"
