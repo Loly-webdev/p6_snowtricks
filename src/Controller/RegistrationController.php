@@ -59,12 +59,11 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $uploadedFile = $form['profile_picture']->getData();
+            $user->setProfilePicture('profile-picture-default.png');
+
             if ($uploadedFile) {
                 $newFilename = $uploaderHelper->uploadPicture($uploadedFile, 'profilePictures');
                 $user->setProfilePicture($newFilename);
-            }
-            else {
-                $user->setProfilePicture('profile-picture-default.png');
             }
 
             $user->setRoles(['ROLE_USER'])
@@ -106,7 +105,7 @@ class RegistrationController extends AbstractController
         }
 
         $user->setActivationToken(null)
-             ->setIsVerified(1);
+             ->setIsVerified(true);
 
         $this->manager->persist($user);
         $this->manager->flush();

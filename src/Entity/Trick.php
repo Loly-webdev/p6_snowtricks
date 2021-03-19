@@ -20,7 +20,7 @@ class Trick
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -31,12 +31,12 @@ class Trick
      * maxMessage="Le nom de la figure ne peut pas contenir plus de 25 caractères."
      * )
      */
-    private $name;
+    private ?string $name;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $slug;
+    private ?string $slug;
 
     /**
      * @ORM\Column(type="text")
@@ -45,17 +45,17 @@ class Trick
      * minMessage="Le descriptif de la figure doit contenir plus de 5 caractères."
      * )
      */
-    private $description;
+    private ?string $description;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $created_at;
+    private DateTime $created_at;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $updated_at;
+    private ?DateTimeInterface $updated_at;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Picture", mappedBy="trick", cascade = {"persist"}, orphanRemoval=true)
@@ -66,7 +66,7 @@ class Trick
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="tricks")
      */
-    private $category;
+    private ?Category $category;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="trick", cascade = {"persist"}, orphanRemoval=true)
@@ -120,12 +120,12 @@ class Trick
     }
 
     /**
-     * @param        $string
+     * @param string $string
      * @param string $delimiter
      *
      * @return string
      */
-    public function slugify($string, $delimiter = '-'): string
+    public function slugify(string $string, $delimiter = '-'): string
     {
         $stringClean = iconv('UTF-8', 'ASCII//TRANSLIT', $string);
         $stringClean = preg_replace("/[^a-zA-Z0-9\/_|+ -]/", '', $stringClean);
@@ -145,11 +145,11 @@ class Trick
     }
 
     /**
-     * @param $slug
+     * @param string $slug
      *
      * @return $this
      */
-    public function setSlug($slug): self
+    public function setSlug(string $slug): self
     {
         $this->slug = $this->slugify($slug);
 
@@ -185,11 +185,11 @@ class Trick
     }
 
     /**
-     * @param DateTimeInterface $created_at
+     * @param DateTime $created_at
      *
      * @return $this
      */
-    public function setCreatedAt(DateTimeInterface $created_at): self
+    public function setCreatedAt(DateTime $created_at): self
     {
         $this->created_at = $created_at;
 

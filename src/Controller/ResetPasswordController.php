@@ -109,7 +109,7 @@ class ResetPasswordController extends AbstractController
      */
     public function resetPassword(Request $request, User $user, TokenGeneratorInterface $token)
     {
-        if ($user->getResetToken() === null || $token !== $user->getResetToken()) {
+        if ($token !== $user->getResetToken()) {
 
             $this->addFlash('error', 'Token Inconnu');
             return $this->redirectToRoute('login');

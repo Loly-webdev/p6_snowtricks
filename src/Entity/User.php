@@ -213,11 +213,11 @@ class User implements UserInterface
     }
 
     /**
-     * @param DateTimeInterface $created_at
+     * @param DateTime $created_at
      *
      * @return $this
      */
-    public function setCreatedAt(DateTimeInterface $created_at): self
+    public function setCreatedAt(DateTime $created_at): self
     {
         $this->created_at = $created_at;
 

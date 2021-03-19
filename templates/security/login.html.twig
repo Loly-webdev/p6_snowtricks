@@ -4,44 +4,30 @@
     <div class="container my-5 text-center"><br>
         <h2 class="mb-5">Connexion</h2>
         <div class="border py-5">
-            {% if error %}
-                <div class="login-error">
-                    {{ error.messageKey|trans(error.messageData,'security') }}
-                </div>
-            {% endif %}
-            {% for message in app.flashes('message') %}
-                <div class="alert alert-success text-center" role="alert">
-                    {{ message }}
-                </div>
-            {% endfor %}
-            {% for message in app.flashes('danger') %}
-                <div class="alert alert-danger text-center" role="alert">
-                    {{ message }}
-                </div>
-            {% endfor %}
-            {% for message in app.flashes('warning') %}
-                <div class="alert alert-warning text-center" role="alert">
-                    {{ message }}
-                </div>
-            {% endfor %}
-            {% if app.user %}
-                <div class="mb-3">
-                    You are logged in as {{ app.user.username }}, <a href="{{ path('logout') }}">Logout</a>
-                </div>
-            {% endif %}
+            <div class="mx-4">
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+
+                {% if app.user %}
+                    <div class="mb-3">
+                        You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                    </div>
+                {% endif %}
+            </div>
             <form action="{{ path('login') }}" class="login-form" method="POST">
                 <div class="login-form-row">
                     <label class="font-weight-bold text-info" for="_username">
                         Pseudo
                     </label>
-                    <input type="text" name="_username" placeholder="Votre pseudo."
+                    <input type="text" name="_username" id="_username" placeholder="Votre pseudo."
                            value="{{ lastUsername }}" required>
                 </div>
                 <div class="login-form-row">
                     <label class="font-weight-bold text-info" for="_password">
                         Mot de passe
                     </label>
-                    <input type="password" name="_password" placeholder="Votre mot de passe."
+                    <input type="password" name="_password" id="_password" placeholder="Votre mot de passe."
                            required>
                 </div>
                 <p class="my-3 font-weight-bold">
@@ -49,6 +35,9 @@
                         Mot de passe oublié ?
                     </a>
                 </p>
+                <input type="hidden" name="_csrf_token"
+                       value="{{ csrf_token('authenticate') }}"
+                >
                 <button type="submit" class="mt-2 btn-round-shadow btn btn-success">
                     <span class="fas fa-sign-in-alt"></span>
                     Connexion

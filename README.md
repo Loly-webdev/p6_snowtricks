@@ -4,32 +4,38 @@
 
 Jimmy Sweat is an ambitious entrepreneur passionate about snowboarding. Its objective is the creation of a collaborative
 site to make this sport known to the general public and help in the learning of tricks.
-## Prérequis
+## Requirements
 
-1. Download and install the project's front-end dependencies with [Npm](https://www.npmjs.com/get-npm)
+1. Have php 7.4 or higher
+2. Download and install the project's front-end dependencies with [Npm](https://www.npmjs.com/get-npm)
    and [Yarn](https://yarnpkg.com/) :
 
 ## Installation
 
 1. Clone and download the repository GitHub :
-
 ```shell
     git clone https://github.com/Loly-webdev/p6_snowtricks.git
 ```
-
 2. Download and install the back-end dependencies of the project with [Composer](https://getcomposer.org/download/) :
 ```shell
     composer install
 ```
-  
-4. Configure your environment variables such as connection to the database, your SMTP server, email address in the
+3. Configure your environment variables such as connection to the database, your SMTP server, email address in the
    file `.env`.
-   
-5. fixture load
- faire migrations
 
-6. Starting the Symfony server :
+4. Create the database if it does not already exist, type the command below :
+```
+    php bin/console doctrine:database:create
+```
+5. Create the different tables in the database by applying migrations :
+```
+    php bin/console doctrine:migrations:migrate
+```
+6. Install fixtures to have data :
+```
+    php bin/console doctrine:fixtures:load
+```
+7. Starting the Symfony server :
 ```shell
     symfony server:start
 ```
-7. ouvrir le navigateur symfony open local

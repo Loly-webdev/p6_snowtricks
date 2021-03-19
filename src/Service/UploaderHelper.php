@@ -27,11 +27,11 @@ class UploaderHelper
 
     /**
      * @param UploadedFile $uploadedFile
-     * @param              $folder
+     * @param string       $folder
      *
      * @return string
      */
-    public function uploadPicture(UploadedFile $uploadedFile, $folder): string
+    public function uploadPicture(UploadedFile $uploadedFile, string $folder): string
     {
         $load             = $this->uploadsPath . '/' . $folder;
         $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);

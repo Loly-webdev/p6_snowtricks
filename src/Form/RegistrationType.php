@@ -22,7 +22,7 @@ class RegistrationType extends ApplicationType
      * @param FormBuilderInterface $builder
      * @param array                $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options): void
+    public function buildForm(FormBuilderInterface $builder, array $options = []): void
     {
         $builder
             ->add('username', TextType::class, $this->fieldsConfiguration('Votre pseudo.'))

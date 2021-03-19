@@ -18,7 +18,6 @@ class HomeController extends AbstractController
     public function index(TrickRepository $trickRepository): Response
     {
         return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
             'tricks'          => $trickRepository->findAll()
         ]);
     }

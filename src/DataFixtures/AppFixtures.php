@@ -45,7 +45,7 @@ class AppFixtures extends Fixture
               ->setRoles(['ROLE_ADMIN'])
               ->setProfilePicture('nowhere-profile.jpeg')
               ->setCreatedAt(new DateTime())
-              ->setIsVerified(1);
+              ->setIsVerified(true);
         $manager->persist($user);
 
         $user1     = new User();
@@ -56,7 +56,7 @@ class AppFixtures extends Fixture
               ->setRoles(['ROLE_USER'])
               ->setProfilePicture('profile-picture-default.jpeg')
               ->setCreatedAt(new DateTime())
-              ->setIsVerified(1);
+              ->setIsVerified(true);
         $manager->persist($user1);
 
         $user2    = new User();
@@ -67,7 +67,7 @@ class AppFixtures extends Fixture
               ->setRoles(['ROLE_USER'])
               ->setProfilePicture('clark-profile.png')
               ->setCreatedAt(new DateTime())
-              ->setIsVerified(1);
+              ->setIsVerified(true);
         $manager->persist($user2);
 
         $user3    = new User();
@@ -78,7 +78,7 @@ class AppFixtures extends Fixture
               ->setRoles((array)'ROLE_USER')
               ->setProfilePicture('diana-profile.png')
               ->setCreatedAt(new DateTime())
-              ->setIsVerified(1);
+              ->setIsVerified(true);
         $manager->persist($user3);
 
         $video1 = new Video();
