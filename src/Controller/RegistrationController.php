@@ -90,20 +90,13 @@ class RegistrationController extends AbstractController
     }
 
     /**
-     * @Route("/activation/{token}", name="activation")
-     * @param                $token
-     * @param UserRepository $userRepository
+     * @Route("/activation/{activation_token}", name="activation")
+     * @param User $user
      *
      * @return RedirectResponse
      */
-    public function activation($token, UserRepository $userRepository): RedirectResponse
+    public function activation(User $user): RedirectResponse
     {
-        $user = $userRepository->findOneBy(['activation_token' => $token]);
-
-        if (!$user) {
-            throw $this->createNotFoundException('Cet utilisateur n\'existe pas');
-        }
-
         $user->setActivationToken(null)
              ->setIsVerified(true);
 
