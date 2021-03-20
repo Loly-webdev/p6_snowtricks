@@ -8,7 +8,7 @@
             <h1>Site communautaire Snowtricks</h1>
             <div class="h1 mb-5">des tricks de snowboard</div>
         </div>
-        <div class="about-content text-center text-secondary">
+        <div class="about-content text-center text-secondary font-weight-bold">
             {% if not app.user %}
                 <p>
                     Les figures de snowboard sont des sauts ou des manœuvres exécutées sur des snowboards pour le
@@ -18,10 +18,13 @@
                     rebords, ou à la surface de la neige. Beaucoup ont leurs origines dans des sports de glisse plus
                     anciens comme le skateboard et le surf.
                     <br>
-                    « J'ai un bon pop sur les frontside nose-roll nollies parce que je les fais à partir d’un carve ».
-                    Si
-                    vous ne comprenez rien à cette phrase, ce site est fait pour vous.
+                    <em class="text-primary">
+                        « J'ai un bon pop sur les frontside nose-roll nollies parce que je les fais à partir d’un carve ».
+                    </em>
                     <br>
+                    Si vous ne comprenez rien à cette phrase, ce site est fait pour vous.
+                </p>
+                <p class="h6 text-info mb-3 font-weight-bold">
                     Ce site a été créé pour faire découvrir et partager les figures de snowboard. Inscrivez-vous pour
                     devenir membre de la communauté et collaborer à l'apprentissage des figures de snowboard.
                 </p>
@@ -37,17 +40,15 @@
                     </a>
                 </div>
             {% else %}
+                <p class="h4 text-info">Ravi de te voir {{ username }} !</p>
                 <p>
-                    Ravi de te revoir {{ username }} !
+                    Partage tes connaissances et collabore à l'apprentissage des figures de snowboard.</br>
                     <br>
-                    Partagez vos connaissances et collaborer à l'apprentissage des figures de snowboard.</br>
-                    <br>
-                    Vous pouvez ajouter des nouvelles figures.
+                    Tu peux ajouter des nouvelles figures.
                 </p>
                 <p>
-                    Vous pouvez également modifier les tricks de votre choix en ajoutant ou en supprimmant le
-                    descriptif,
-                    des photos ou des vidéos.
+                    Tu peux également modifier les tricks de ton choix en ajoutant ou en supprimmant le
+                    descriptif, des photos ou des vidéos.
                 </p>
             {% endif %}
         </div>
