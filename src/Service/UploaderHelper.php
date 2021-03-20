@@ -34,7 +34,7 @@ class UploaderHelper
     public function uploadPicture(UploadedFile $uploadedFile, string $folder): string
     {
         $load             = $this->uploadsPath . '/' . $folder;
-        $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
+        $originalFilename = basename($uploadedFile->getClientOriginalName());
         $newFilename      = $originalFilename . '-' . uniqid('', true) . '.' . $uploadedFile->guessExtension();
 
         $uploadedFile->move(

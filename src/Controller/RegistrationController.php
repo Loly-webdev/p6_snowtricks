@@ -6,7 +6,6 @@ use App\Entity\User;
 use App\Service\Mailer;
 use App\Form\RegistrationType;
 use App\Service\UploaderHelper;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -100,7 +99,6 @@ class RegistrationController extends AbstractController
         $user->setActivationToken(null)
              ->setIsVerified(true);
 
-        $this->manager->persist($user);
         $this->manager->flush();
 
         $this->addFlash('success', 'Votre compte a bien été activé.');
