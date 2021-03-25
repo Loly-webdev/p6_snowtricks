@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+{% block title %}S'inscrire{% endblock %}
+{% form_theme form 'security/_form-renderer.html.twig' %}
+{% block content %}
+    <section class="register">
+        <div class="register-title container my-5 text-center">
+            <h2 class="mb-5">Inscription</h2>
+            <div class="register-form border py-5">
+                {{ form_start(form) }}
+                {{ form_row(form.username) }}
+                {{ form_row(form.email) }}
+                {{ form_row(form.password) }}
+                {{ form_row(form.passwordVerification) }}
+                {{ form_row(form.profile_picture) }}
+                <button type="submit" class="mt-2 btn-round-shadow btn btn-primary">
+                    <span class="fas fa-file-signature"></span>
+                    Inscription
+                </button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </section>
+{% endblock %}

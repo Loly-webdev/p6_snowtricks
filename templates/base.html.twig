@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    {{ include('partial/_head.html.twig') }}
+    <title>Snowtricks - {% block title %}Bienvenue{% endblock %}</title>
+    {% block stylesheets %}
+        {# 'app' must match the first argument to addEntry() in webpack.config.js #}
+        {{ encore_entry_link_tags('styles/app') }}
+    {% endblock %}
+</head>
+<body>
+{% block body %}
+    <header>
+        {{ include('partial/_nav.html.twig') }}
+    </header>
+    <main class="mt-5 mx-0 p-0">
+        <div class="container-fluid px-4 py-5">
+            {% for label, messages in app.flashes %}
+                <div class="alert alert-{{ label }}">
+                    {% for message in messages %}
+                        <p class="text-center">{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+    <footer class="fixed-bottom bg-dark text-secondary">
+        {{ include('partial/_footer.html.twig') }}
+    </footer>
+{% endblock %}
+{% block javascripts %}
+    {{ encore_entry_script_tags('js/app') }}
+{% endblock %}
+</body>
+</html>
+

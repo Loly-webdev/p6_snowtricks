@@ -1,0 +1,23 @@
+/* GENERAL */
+body {
+    font-family: "Roboto", sans-serif;
+    letter-spacing: 1px;
+    text-size-adjust: none;
+    -moz-text-size-adjust: none;
+    -webkit-text-size-adjust: none;
+    -ms-text-size-adjust: none;
+}
+
+body,
+main {
+    min-height: 90vh;
+}
+
+/* NAV */
+nav img {
+    width: 100px;
+}
+
+a {
+    text-decoration: none;
+}
