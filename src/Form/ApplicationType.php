@@ -16,10 +16,13 @@ class ApplicationType extends AbstractType
      */
     protected function fieldsConfiguration(string $placeholder, $options = []): array
     {
-        return array_merge_recursive([
-                                         'attr' => [
-                                             'placeholder' => $placeholder
-                                         ]
-                                     ], $options);
+        return array_merge_recursive(
+            [
+                'attr' => [
+                    'placeholder' => $placeholder,
+                ],
+            ],
+            $options
+        );
     }
 }

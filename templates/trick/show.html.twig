@@ -1,0 +1,143 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Trick{% endblock %}
+
+{% block content %}
+    <section class="trick container my-4 text-center">
+        {% set edit_url = path('trick_edit', {'slug':trick.slug}) %}
+        {% set delete_url = path('trick_delete', {'slug':trick.slug}) %}
+        <div class="trick-title">
+            <h2>Figure :
+                <strong class="text-primary">{{ trick.name }}</strong>
+            </h2>
+            <h3 class="h5">Catégorie :
+                <strong class="text-info">{{ trick.category.name }}</strong>
+            </h3>
+            <h4 class="h6">Id :
+                <strong class="text-info">{{ trick.id }}</strong>
+            </h4>
+            <div class="text-muted mt-3">
+                <em>Date de création :
+                    {{ trick.createdAt|date("d/m/Y") }}</em>
+                <br>
+                <em>Date de modification :
+                    {{ trick.updatedAt|date("d/m/Y") }}</em>
+            </div>
+        </div>
+        <div class="trick-content">
+            {% if trick.pictures is defined %}
+                {% for picture in trick.pictures %}
+                    {% if loop.first %}
+                        <div class="trick-content-img">
+                            <figure class="trick-content-img-figure">
+                                <img class="shadow rounded img-fluid mt-3"
+                                     src="{{ asset('uploads/pictures/' ~ picture.path) }}" alt="">
+                            </figure>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="trick-content-img">
+                        <figure class="tricks-content-card-img-figure">
+                            <img class="shadow rounded img-fluid mt-3"
+                                 src="{{ asset('uploads/pictures/default-picture.png') }}" alt="image par défaut">
+                        </figure>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <hr>
+            <div class="trick-content-description">
+                <h3 class="text-info">Description</h3>
+                <p class="text-secondary">{{ trick.description|nl2br }}</p>
+            </div>
+            <hr>
+            <div class="my-5 trick-content-more">
+                <input type="checkbox" hidden class="trick-content-more-state" id="read-more">
+                <div class="trick-content-more-target">
+                    <h3 class="text-info">Photos</h3>
+                    <div class="trick-content-thumbnail row row-cols-1 row-cols-md-3 g-4">
+                        {% for picture in trick.pictures %}
+                            {% if not loop.first %}
+                                <div class="m-2">
+                                    <figure class="trick-content-thumbnail-figure">
+                                        <img class="img-fluid rounded mx-auto d-block"
+                                             src="{{ asset('uploads/pictures/' ~ picture.path) }}" alt="">
+                                    </figure>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <hr>
+                    <h3 class="mt-5 text-info">Vidéos</h3>
+                    <div class="trick-content-videos row row-cols-1 row-cols-md-3 g-4">
+                        {% for video in trick.videos %}
+                            <div class="m-2">
+                                <iframe src="{{ video.url }}" width="100%"
+                                        allowfullscreen></iframe>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% if app.user %}
+        <div class="text-center mx-5 my-2 py-2 bg-secondary shadow rounded trick-title-icon">
+            <a href="{{ edit_url }}" class="btn btn-primary" type="button">
+                <span class="fas fa-pencil-alt"></span>
+                Moditer cette figure
+            </a>
+            <a href="{{ delete_url }}">
+                {{ include('trick/_delete_form.html.twig') }}
+            </a>
+        </div>
+    {% endif %}
+    <section class="trick-comment my-4 text-center" id="comment">
+        <h3 class="text-info">Commentaires</h3>
+        <hr>
+        {% for comment in paginator.data %}
+            <div class="trick-comment-content">
+                <div class="trick-comment-content-user">
+                    <img style="height: 100px;" class="trick-comment-profile-picture"
+                         src="{{ asset('uploads/profilePictures/'~ comment.user.profilePicture) }}" alt="">
+                    <h4>{{ comment.user.username }}</h4>
+                </div>
+                <div class="trick-comment-content-text">
+                    <p>
+                        <em class="text-muted mt-3">Le {{ comment.createdAt|date("d/m/Y \\à H:i:s","Europe/Paris") }}</em>
+                        <br>
+                        {{ comment.content }}
+                    </p>
+                </div>
+                <hr>
+            </div>
+        {% else %}
+            <div class="trick-comment-content">
+                <p class="text-info">Il n'y a pas encore de commentaire sur cette figure.</p>
+            </div>
+        {% endfor %}
+        {% include 'partial/pagination.html.twig' with {'route': 'trick_show'} %}
+        {% if app.user %}
+            <div class="trick-comment-add">
+                <div class="trick-comment-add-user">
+                    <img style="height: 100px;" class="trick-comment-profile-picture"
+                         src="{{ asset('uploads/profilePictures/'~ user.profilePicture) }}" alt="">
+                    <h4>{{ user.username }}</h4>
+                </div>
+                <div class="trick-comment-add-form">
+                    {{ form_start(form) }}
+                    {{ form_row(form.content) }}
+                    <button type="submit" class="btn btn-success">Valider</button>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        {% endif %}
+    </section>
+{% endblock %}
+{% block form_row %}
+    <div class="trick-comment-add-form-row">
+        {{ form_widget(form) }}
+        <div class="trick-comment-add-form-row-error">
+            {{ form_errors(form) }}
+        </div>
+    </div>
+{% endblock %}
