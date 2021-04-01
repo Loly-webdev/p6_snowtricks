@@ -40,10 +40,10 @@ class AppFixtures extends Fixture
         $user     = new User();
         $password = $this->encoder->encodePassword($user, 'now');
         $user->setUsername('Nowhere')
-              ->setEmail('eva@gmail.com')
+              ->setEmail('lolywebdev@gmail.com')
               ->setPassword($password)
               ->setRoles(['ROLE_ADMIN'])
-              ->setProfilePicture('nowhere-profile.jpeg')
+              ->setProfilePicture('nowhere-profile.png')
               ->setCreatedAt(new DateTime())
               ->setIsVerified(true);
         $manager->persist($user);

@@ -31,7 +31,7 @@ class TrickType extends AbstractType
             ->add('description', TextareaType::class, [
                 'label' => 'Description'
             ])
-            ->add('images', CollectionType::class, [
+            ->add('pictures', CollectionType::class, [
                 'allow_add' => true,
                 'allow_delete' => true,
                 'allow_file_upload' => true,
@@ -56,6 +56,7 @@ class TrickType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Trick::class,
+            'translation_domain' => 'trick-form',
         ]);
     }
 }

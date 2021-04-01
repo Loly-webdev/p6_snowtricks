@@ -1,7 +1,5 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}Trick{% endblock %}
-
 {% block content %}
     <section class="trick container my-4 text-center">
         {% set edit_url = path('trick_edit', {'slug':trick.slug}) %}

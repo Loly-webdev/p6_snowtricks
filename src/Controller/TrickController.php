@@ -65,7 +65,7 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("/trick/{slug}/{page<\d+>?1}", name="trick_show", methods={"GET"})
+     * @Route("/trick/{slug}/{page<\d+>?1}", name="trick_show")
      * @param Trick     $trick
      * @param Request   $request
      * @param int       $page
