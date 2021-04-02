@@ -16,7 +16,7 @@ class Video
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -27,19 +27,19 @@ class Video
      * maxMessage="Le titre de la vidéo ne peut pas contenir plus de 50 caractères."
      * )
      */
-    private $name;
+    private ?string $name;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Url()
      */
-    private $url;
+    private ?string $url;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Trick", inversedBy="videos")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $trick;
+    private ?Trick $trick;
 
     /**
      * @return int|null

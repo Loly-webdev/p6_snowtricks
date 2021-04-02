@@ -133,6 +133,7 @@
 {% endblock %}
 {% block form_row %}
     <div class="trick-comment-add-form-row">
+        {{ form_label(form) }}
         {{ form_widget(form) }}
         <div class="trick-comment-add-form-row-error">
             {{ form_errors(form) }}

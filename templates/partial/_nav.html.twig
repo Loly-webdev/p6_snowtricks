@@ -15,6 +15,12 @@
                 </a>
             </li>
             {% if app.user %}
+                <li id="new-trick" class="active nav-item">
+                    <a class="nav-link" href="{{ path('trick_new') }}">
+                        <span class="fas fa-snowboarding"></span>
+                        Nouvelle trick
+                    </a>
+                </li>
                 <div class="text-center m-1">
                     <a id="authentication" href="{{ path('logout') }}" class="btn btn-outline-danger">
                         <span class="fas fa-sign-in-alt"></span>

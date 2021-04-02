@@ -1,11 +1,94 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}New Trick{% endblock %}
-
-{% block body %}
-    <h1>Create new Trick</h1>
-
-    {{ include('trick/_form.html.twig') }}
-
-    <a href="{{ path('trick_index') }}">back to list</a>
+{% block title %}Nouvelle Trick{% endblock %}
+{% form_theme form _self %}
+{% block content %}
+<div class="container my-4 text-center add-trick"><br>
+    <h2 class="mb-5">Ajouter une nouvelle trick</h2>
+    <div class="border py-5">
+        {{ form_start(form, { 'attr': {'class': 'add-trick-form'} }) }}
+        {{ form_row(form.name) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.category) }}
+        {{ form_row(form.pictures) }}
+        {{ form_row(form.videos) }}
+        <br>
+        <button type="submit" class="mt-3 btn-round-shadow btn btn-success">
+            <span class="fas fa-snowboarding"></span>
+            Créer la trick
+        </button>
+        {{ form_end(form) }}
+    </div>
+    {% endblock %}
+    {% block form_row %}
+        <div class="add-trick-form-row">
+            <label class="font-weight-bold text-info">
+                {{ form_label(form) }}
+            </label>
+            {{ form_widget(form) }}
+            <div class="add-trick-form-error">
+                {{ form_errors(form) }}
+            </div>
+        </div>
+    {% endblock %}
+    {% block _trick_pictures_row %}
+        <h3 class="mt-4">Ajouter des photos</h3>
+        {{ form_widget(form) }}
+        <button type="submit" class="mt-3 btn-round-shadow btn btn-info" id="add_picture">
+            Ajouter une photo
+        </button>
+    {% endblock %}
+    {% block _trick_pictures_entry_widget %}
+        <div class="add-trick-form-entry">
+            <label class="font-weight-bold text-info">
+                {{ form_label(form.file) }}
+            </label>
+            {{ form_widget(form.file) }}
+            <div class="add-trick-form-error">
+                {{ form_errors(form.file) }}
+            </div>
+        </div>
+        <div class="add-trick-form-entry">
+            <label class="font-weight-bold text-info">
+                {{ form_label(form.caption) }}
+            </label>
+            {{ form_widget(form.caption) }}
+            <div class="add-trick-form-error">
+                {{ form_errors(form.caption) }}
+            </div>
+        </div>
+        <button type="button" class="btn-delete-picture btn btn-danger">
+            <span class="fas fa-trash-alt"></span>
+        </button>
+    {% endblock %}
+    {% block _trick_videos_row %}
+        <h3 class="mt-4">Ajouter des vidéos</h3>
+        {{ form_widget(form) }}
+        <button type="submit" class="mt-3 btn-round-shadow btn btn-info" id="add_video">
+            Ajouter une vidéo
+        </button>
+    {% endblock %}
+    {% block _trick_videos_entry_widget %}
+    <div class="add-trick-form-entry">
+        <label class="font-weight-bold text-info">
+            {{ form_label(form.url) }}
+        </label>
+        {{ form_widget(form.url) }}
+        <div class="add-trick-form-error">
+            {{ form_errors(form.url) }}
+        </div>
+    </div>
+    <div class="add-trick-form-entry">
+        <label class="font-weight-bold text-info">
+            {{ form_label(form.name) }}
+        </label>
+        {{ form_widget(form.name) }}
+        <div class="add-trick-form-error">
+            {{ form_errors(form.name) }}
+        </div>
+    </div>
+    <button type="button" class="btn-delete-video btn btn-danger">
+        <span class="fas fa-trash-alt"></span>
+    </button>
+</div>
 {% endblock %}
+

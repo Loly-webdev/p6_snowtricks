@@ -6,9 +6,8 @@ use App\Entity\Comment;
 use App\Entity\Trick;
 use App\Form\CommentType;
 use App\Form\TrickType;
-use App\Repository\TrickRepository;
 use App\Service\Paginator;
-use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -116,11 +115,28 @@ class TrickController extends AbstractController
      */
     public function edit(Request $request, Trick $trick): Response
     {
+        $originalPictures = new ArrayCollection();
+        $originalVideos   = new ArrayCollection();
+
         $form = $this->createForm(TrickType::class, $trick);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
-            $trick->setUpdatedAt(new DateTime());
+            foreach ($originalPictures as $picture) {
+                if (false === $trick->getPictures()->contains($picture)) {
+                    $picture->getTrick()->removeElement($trick);
+                    $this->manager->persist($picture);
+                }
+            }
+
+            foreach ($originalVideos as $video) {
+                if (false === $trick->getVideos()->contains($video)) {
+                    $video->getTrick()->removeElement($trick);
+                    $this->manager->persist($video);
+                }
+            }
+
+            $trick = $form->getData();
+
             $this->manager->persist($trick);
             $this->manager->flush();
 
@@ -131,8 +147,9 @@ class TrickController extends AbstractController
         }
 
         return $this->render('trick/edit.html.twig', [
-            'trick' => $trick,
-            'form' => $form->createView(),
+            'controller_name' => 'TrickController',
+            'trick'           => $trick,
+            'form'            => $form->createView()
         ]);
     }
 
