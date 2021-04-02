@@ -33,7 +33,8 @@ class PictureType extends ApplicationType
             ->add(
                 'path',
                 TextType::class,
-                $this->fieldsConfiguration("Titre de l'image"));
+                $this->fieldsConfiguration("Titre de l'image")
+            );
     }
 
     /**

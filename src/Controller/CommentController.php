@@ -17,21 +17,30 @@ class CommentController extends AbstractController
 {
     /**
      * @Route("/", name="comment_index", methods={"GET"})
+     * @param CommentRepository $commentRepository
+     *
+     * @return Response
      */
     public function index(CommentRepository $commentRepository): Response
     {
-        return $this->render('comment/index.html.twig', [
-            'comments' => $commentRepository->findAll(),
-        ]);
+        return $this->render(
+            'comment/index.html.twig',
+            [
+                'comments' => $commentRepository->findAll(),
+            ]
+        );
     }
 
     /**
      * @Route("/new", name="comment_new", methods={"GET","POST"})
+     * @param Request $request
+     *
+     * @return Response
      */
     public function new(Request $request): Response
     {
         $comment = new Comment();
-        $form = $this->createForm(CommentType::class, $comment);
+        $form    = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -42,24 +51,37 @@ class CommentController extends AbstractController
             return $this->redirectToRoute('comment_index');
         }
 
-        return $this->render('comment/new.html.twig', [
-            'comment' => $comment,
-            'form' => $form->createView(),
-        ]);
+        return $this->render(
+            'comment/new.html.twig',
+            [
+                'comment' => $comment,
+                'form'    => $form->createView(),
+            ]
+        );
     }
 
     /**
      * @Route("/{id}", name="comment_show", methods={"GET"})
+     * @param Comment $comment
+     *
+     * @return Response
      */
     public function show(Comment $comment): Response
     {
-        return $this->render('comment/show.html.twig', [
-            'comment' => $comment,
-        ]);
+        return $this->render(
+            'comment/show.html.twig',
+            [
+                'comment' => $comment,
+            ]
+        );
     }
 
     /**
      * @Route("/{id}/edit", name="comment_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param Comment $comment
+     *
+     * @return Response
      */
     public function edit(Request $request, Comment $comment): Response
     {
@@ -72,14 +94,21 @@ class CommentController extends AbstractController
             return $this->redirectToRoute('comment_index');
         }
 
-        return $this->render('comment/edit.html.twig', [
-            'comment' => $comment,
-            'form' => $form->createView(),
-        ]);
+        return $this->render(
+            'comment/edit.html.twig',
+            [
+                'comment' => $comment,
+                'form'    => $form->createView(),
+            ]
+        );
     }
 
     /**
      * @Route("/{id}", name="comment_delete", methods={"DELETE"})
+     * @param Request $request
+     * @param Comment $comment
+     *
+     * @return Response
      */
     public function delete(Request $request, Comment $comment): Response
     {

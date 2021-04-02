@@ -25,11 +25,13 @@ class VideoType extends ApplicationType
             ->add(
                 'name',
                 TextType::class,
-                $this->fieldsConfiguration("Titre de la vidéo"))
+                $this->fieldsConfiguration("Titre de la vidéo")
+            )
             ->add(
                 'url',
                 UrlType::class,
-                $this->fieldsConfiguration("URL de la vidéo."));
+                $this->fieldsConfiguration("URL de la vidéo.")
+            );
     }
 
     /**

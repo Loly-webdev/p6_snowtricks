@@ -28,10 +28,12 @@ class ResetPasswordType extends ApplicationType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
-                                   'data_class'         => User::class,
-                                   'translation_domain' => 'account-form'
-                               ]);
+        $resolver->setDefaults(
+            [
+                'data_class'         => User::class,
+                'translation_domain' => 'account-form',
+            ]
+        );
     }
 }
 

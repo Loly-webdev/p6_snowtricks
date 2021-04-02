@@ -29,9 +29,13 @@ class RegistrationType extends ApplicationType
             ->add('email', EmailType::class, $this->fieldsConfiguration('Votre adresse email.'))
             ->add('password', PasswordType::class, $this->fieldsConfiguration('Votre mot de passe.'))
             ->add('passwordVerification', PasswordType::class, $this->fieldsConfiguration('Confirmer le mot de passe.'))
-            ->add('profile_picture', FileType::class, [
-                'required' => false,
-            ]);
+            ->add(
+                'profile_picture',
+                FileType::class,
+                [
+                    'required' => false,
+                ]
+            );
     }
 
     /**
@@ -39,9 +43,11 @@ class RegistrationType extends ApplicationType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
-                                   'data_class'         => User::class,
-                                   'translation_domain' => 'account-form'
-                               ]);
+        $resolver->setDefaults(
+            [
+                'data_class'         => User::class,
+                'translation_domain' => 'account-form',
+            ]
+        );
     }
 }

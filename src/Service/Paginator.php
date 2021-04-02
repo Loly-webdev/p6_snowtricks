@@ -11,18 +11,12 @@ use Symfony\Component\Config\Definition\Exception\Exception;
  */
 class Paginator
 {
-    private     $entity;
-    private int $limit = 5;
-    /**
-     * @var int
-     */
-    private int $currentPage = 1;
-    /**
-     * @var EntityManagerInterface
-     */
+    private                        $entity;
+    private int                    $limit       = 5;
+    private int                    $currentPage = 1;
     private EntityManagerInterface $manager;
     private                        $order;
-    private $attribute;
+    private                        $attribute;
 
     /**
      * Paginator constructor.
@@ -83,7 +77,7 @@ class Paginator
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getLimit(): int
     {
@@ -91,11 +85,11 @@ class Paginator
     }
 
     /**
-     * @param $limit
+     * @param int $limit
      *
      * @return $this
      */
-    public function setLimit($limit): Paginator
+    public function setLimit(int $limit): Paginator
     {
         $this->limit = $limit;
 
@@ -111,11 +105,11 @@ class Paginator
     }
 
     /**
-     * @param $currentPage
+     * @param int $currentPage
      *
      * @return $this
      */
-    public function setCurrentPage($currentPage): Paginator
+    public function setCurrentPage(int $currentPage): Paginator
     {
         $this->currentPage = $currentPage;
 

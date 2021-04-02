@@ -43,7 +43,7 @@ class TrickController extends AbstractController
     public function new(Request $request): Response
     {
         $trick = new Trick();
-        $form = $this->createForm(TrickType::class, $trick);
+        $form  = $this->createForm(TrickType::class, $trick);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -52,15 +52,21 @@ class TrickController extends AbstractController
 
             $this->addFlash('success', "La nouvelle figure  a bien été enregistrée.");
 
-            return $this->redirectToRoute('trick_show', [
-                'slug' => $trick->getSlug()
-            ]);
+            return $this->redirectToRoute(
+                'trick_show',
+                [
+                    'slug' => $trick->getSlug(),
+                ]
+            );
         }
 
-        return $this->render('trick/new.html.twig', [
-            'trick' => $trick,
-            'form' => $form->createView(),
-        ]);
+        return $this->render(
+            'trick/new.html.twig',
+            [
+                'trick' => $trick,
+                'form'  => $form->createView(),
+            ]
+        );
     }
 
     /**
@@ -97,13 +103,16 @@ class TrickController extends AbstractController
             ->setCurrentPage($page)
             ->setLimit(4);
 
-        return $this->render('trick/show.html.twig', [
-            'controller_name' => 'TrickController',
-            'trick'           => $trick,
-            'paginator'       => $paginator,
-            'user'            => $this->getUser(),
-            'form'            => $form->createView()
-        ]);
+        return $this->render(
+            'trick/show.html.twig',
+            [
+                'controller_name' => 'TrickController',
+                'trick'           => $trick,
+                'paginator'       => $paginator,
+                'user'            => $this->getUser(),
+                'form'            => $form->createView(),
+            ]
+        );
     }
 
     /**
@@ -141,16 +150,23 @@ class TrickController extends AbstractController
             $this->manager->flush();
 
             $this->addFlash('success', "La figure a bien été modifié.");
-            return $this->redirectToRoute('trick_show', [
-                'slug' => $trick->getSlug()
-            ]);
+
+            return $this->redirectToRoute(
+                'trick_show',
+                [
+                    'slug' => $trick->getSlug(),
+                ]
+            );
         }
 
-        return $this->render('trick/edit.html.twig', [
-            'controller_name' => 'TrickController',
-            'trick'           => $trick,
-            'form'            => $form->createView()
-        ]);
+        return $this->render(
+            'trick/edit.html.twig',
+            [
+                'controller_name' => 'TrickController',
+                'trick'           => $trick,
+                'form'            => $form->createView(),
+            ]
+        );
     }
 
     /**

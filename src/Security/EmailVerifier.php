@@ -17,17 +17,8 @@ use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
  */
 class EmailVerifier
 {
-    /**
-     * @var VerifyEmailHelperInterface
-     */
     private VerifyEmailHelperInterface $verifyEmailHelper;
-    /**
-     * @var MailerInterface
-     */
     private MailerInterface $mailer;
-    /**
-     * @var EntityManagerInterface
-     */
     private EntityManagerInterface $entityManager;
 
     /**
@@ -37,8 +28,11 @@ class EmailVerifier
      * @param MailerInterface            $mailer
      * @param EntityManagerInterface     $manager
      */
-    public function __construct(VerifyEmailHelperInterface $helper, MailerInterface $mailer, EntityManagerInterface $manager)
-    {
+    public function __construct(
+        VerifyEmailHelperInterface $helper,
+        MailerInterface $mailer,
+        EntityManagerInterface $manager
+    ) {
         $this->verifyEmailHelper = $helper;
         $this->mailer            = $mailer;
         $this->entityManager     = $manager;
@@ -55,7 +49,7 @@ class EmailVerifier
     {
         $signatureComponents = $this->verifyEmailHelper->generateSignature(
             $verifyEmailRouteName,
-            (string) $user->getId(),
+            (string)$user->getId(),
             $user->getEmail()
         );
 
@@ -70,8 +64,8 @@ class EmailVerifier
     }
 
     /**
-     * @param Request       $request
-     * @param User $user
+     * @param Request $request
+     * @param User    $user
      *
      * @throws VerifyEmailExceptionInterface
      */
@@ -79,7 +73,7 @@ class EmailVerifier
     {
         $this->verifyEmailHelper->validateEmailConfirmation(
             $request->getUri(),
-            (string) $user->getId(),
+            (string)$user->getId(),
             $user->getEmail()
         );
 

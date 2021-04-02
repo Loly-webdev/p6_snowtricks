@@ -14,7 +14,7 @@ class ApplicationType extends AbstractType
      *
      * @return array
      */
-    protected function fieldsConfiguration(string $placeholder, $options = []): array
+    protected function fieldsConfiguration(string $placeholder, array $options = []): array
     {
         return array_merge_recursive(
             [

@@ -19,7 +19,8 @@
                     anciens comme le skateboard et le surf.
                     <br>
                     <em class="text-primary">
-                        « J'ai un bon pop sur les frontside nose-roll nollies parce que je les fais à partir d’un carve ».
+                        « J'ai un bon pop sur les frontside nose-roll nollies parce que je les fais à partir d’un carve
+                        ».
                     </em>
                     <br>
                     Si vous ne comprenez rien à cette phrase, ce site est fait pour vous.
@@ -73,16 +74,16 @@
                                 {% if loop.first %}
                                     <figure class="card-img-top text-center">
                                         <a href="{{ show_url }}">
-                                        <img class="img-fluid" src="{{ asset('uploads/pictures/' ~ picture.path) }}"
-                                             alt="">
+                                            <img class="img-fluid" src="{{ asset('uploads/pictures/' ~ picture.path) }}"
+                                                 alt="">
                                         </a>
                                     </figure>
                                 {% endif %}
                             {% else %}
                                 <figure class="card-img-top text-center">
                                     <a href="{{ show_url }}">
-                                    <img class="img-fluid" src="{{ asset('uploads/pictures/default-picture.png') }}"
-                                         alt="">
+                                        <img class="img-fluid" src="{{ asset('uploads/pictures/default-picture.png') }}"
+                                             alt="">
                                     </a>
                                 </figure>
                             {% endfor %}
