@@ -20,8 +20,9 @@ class PictureType extends ApplicationType
      * @param FormBuilderInterface $builder
      * @param array                $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options): void
+    public function buildForm(FormBuilderInterface $builder, array $options = []): void
     {
+        unset($options);
         $builder
             ->add(
                 'file',
@@ -32,6 +33,11 @@ class PictureType extends ApplicationType
             )
             ->add(
                 'path',
+                TextType::class,
+                $this->fieldsConfiguration("Nom du fichier")
+            )
+            ->add(
+                'caption',
                 TextType::class,
                 $this->fieldsConfiguration("Titre de l'image")
             );

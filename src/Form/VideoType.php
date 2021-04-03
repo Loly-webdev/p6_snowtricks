@@ -19,8 +19,9 @@ class VideoType extends ApplicationType
      * @param FormBuilderInterface $builder
      * @param array                $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options): void
+    public function buildForm(FormBuilderInterface $builder, array $options = []): void
     {
+        unset($options);
         $builder
             ->add(
                 'name',
