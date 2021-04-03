@@ -21,7 +21,8 @@ class ForgottenPasswordType extends ApplicationType
         $builder
             ->add(
                 'email',
-                EmailType::class, $this->fieldsConfiguration('Veuillez saisir une adresse email.')
+                EmailType::class,
+                $this->fieldsConfiguration('Veuillez saisir une adresse email.')
             );
     }
 
@@ -30,9 +31,11 @@ class ForgottenPasswordType extends ApplicationType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
-                                   'translation_domain' => 'account-form'
-                               ]);
+        $resolver->setDefaults(
+            [
+                'translation_domain' => 'account-form',
+            ]
+        );
     }
 }
 

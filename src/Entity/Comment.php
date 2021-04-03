@@ -17,29 +17,29 @@ class Comment
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="text")
      */
-    private $content;
+    private ?string $content;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $created_at;
+    private DateTime $created_at;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user;
+    private ?User $user;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Trick", inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $trick;
+    private ?Trick $trick;
 
     /**
      * Comment constructor.
@@ -86,11 +86,11 @@ class Comment
     }
 
     /**
-     * @param DateTimeInterface $created_at
+     * @param DateTime $created_at
      *
      * @return $this
      */
-    public function setCreatedAt(DateTimeInterface $created_at): self
+    public function setCreatedAt(DateTime $created_at): self
     {
         $this->created_at = $created_at;
 

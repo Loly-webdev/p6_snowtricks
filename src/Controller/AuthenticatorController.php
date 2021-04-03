@@ -22,11 +22,14 @@ class AuthenticatorController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        return $this->render('security/login.html.twig', [
-            'controller_name' => 'AccountController',
-            'lastUsername' => $authenticationUtils->getLastUsername(),
-            'error' => $authenticationUtils->getLastAuthenticationError()
-        ]);
+        return $this->render(
+            'security/login.html.twig',
+            [
+                'controller_name' => 'AccountController',
+                'lastUsername'    => $authenticationUtils->getLastUsername(),
+                'error'           => $authenticationUtils->getLastAuthenticationError(),
+            ]
+        );
     }
 
     /**
@@ -34,6 +37,8 @@ class AuthenticatorController extends AbstractController
      */
     public function logout(): void
     {
-        throw new LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+        throw new LogicException(
+            'This method can be blank - it will be intercepted by the logout key on your firewall.'
+        );
     }
 }

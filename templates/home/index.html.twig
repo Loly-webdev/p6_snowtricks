@@ -19,7 +19,8 @@
                     anciens comme le skateboard et le surf.
                     <br>
                     <em class="text-primary">
-                        « J'ai un bon pop sur les frontside nose-roll nollies parce que je les fais à partir d’un carve ».
+                        « J'ai un bon pop sur les frontside nose-roll nollies parce que je les fais à partir d’un carve
+                        ».
                     </em>
                     <br>
                     Si vous ne comprenez rien à cette phrase, ce site est fait pour vous.
@@ -46,6 +47,12 @@
                     <br>
                     Tu peux ajouter des nouvelles figures.
                 </p>
+                <button class="mt-1 mb-3 btn-round-shadow btn btn-primary" type="button">
+                    <a class="text-light" href="{{ path('trick_new') }}">
+                        <span class="fas fa-snowboarding"></span>
+                        Nouvelle trick
+                    </a>
+                </button>
                 <p>
                     Tu peux également modifier les tricks de ton choix en ajoutant ou en supprimmant le
                     descriptif, des photos ou des vidéos.
@@ -57,35 +64,45 @@
         <h2 class="h1 my-3 text-center">Les Tricks</h2>
         <div class="row row-cols-1 row-cols-md-3 g-4">
             {% for trick in tricks %}
-
+                {% set show_url = path('trick_show', {'slug':trick.slug}) %}
+                {% set edit_url = path('trick_edit', {'slug':trick.slug}) %}
+                {% set delete_url = path('trick_delete', {'slug':trick.slug}) %}
                 <div class="col my-2">
                     <div class="card h-100">
                         {% if trick.pictures is defined %}
                             {% for picture in trick.pictures %}
                                 {% if loop.first %}
                                     <figure class="card-img-top text-center">
-                                        <img class="img-fluid" src="{{ asset('uploads/pictures/' ~ picture.path) }}"
-                                             alt="">
+                                        <a href="{{ show_url }}">
+                                            <img class="img-fluid" src="{{ asset('uploads/pictures/' ~ picture.path) }}"
+                                                 alt="">
                                         </a>
                                     </figure>
                                 {% endif %}
                             {% else %}
                                 <figure class="card-img-top text-center">
-
-                                    <img class="img-fluid" src="{{ asset('uploads/pictures/default-picture.png') }}"
-                                         alt="">
+                                    <a href="{{ show_url }}">
+                                        <img class="img-fluid" src="{{ asset('uploads/pictures/default-picture.png') }}"
+                                             alt="">
                                     </a>
                                 </figure>
                             {% endfor %}
                         {% endif %}
                         <div class="card-body">
                             <h5 class="card-title">
-
+                                <a href="{{ show_url }}">{{ trick.name }}</a>
                             </h5>
                         </div>
                         {% if app.user %}
                             <div class="card-footer">
                                 <div class="tricks-content-card-btn-icon">
+                                    <a href="{{ edit_url }}" class="btn btn-primary" type="button">
+                                        <span class="fas fa-pencil-alt"></span>
+                                    </a>
+                                    <a href="{{ delete_url }}" class="btn btn-danger" type="button"
+                                       onclick="return confirm('Etes-vous sûr de vouloir supprimer cette figure ?');">
+                                        <span class="fas fa-trash-alt"></span>
+                                    </a>
                                 </div>
                             </div>
                         {% endif %}

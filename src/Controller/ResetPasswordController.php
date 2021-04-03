@@ -42,8 +42,11 @@ class ResetPasswordController extends AbstractController
      * @param UserPasswordEncoderInterface $encoder
      * @param TokenGeneratorInterface      $tokenGenerator
      */
-    public function __construct(EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder, TokenGeneratorInterface $tokenGenerator)
-    {
+    public function __construct(
+        EntityManagerInterface $manager,
+        UserPasswordEncoderInterface $encoder,
+        TokenGeneratorInterface $tokenGenerator
+    ) {
         $this->manager        = $manager;
         $this->encoder        = $encoder;
         $this->tokenGenerator = $tokenGenerator;
@@ -65,10 +68,11 @@ class ResetPasswordController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $user  = $userRepository->findOneBy($data['email']);
+            $user = $userRepository->findOneBy($data['email']);
 
             if (!$user) {
                 $this->addFlash('error', 'Cette adresse e-mail est inconnue');
+
                 return $this->redirectToRoute('login');
             }
 
@@ -80,23 +84,34 @@ class ResetPasswordController extends AbstractController
                 $this->manager->flush();
             } catch (Exception $e) {
                 $this->addFlash('error', $e->getMessage());
+
                 return $this->redirectToRoute('login');
             }
 
-            $mailer->sendMessage('noreply@snowtricks.com', $user->getEmail(), $user->getUsername(), 'Mot de passe oublié', 'email/reset-password.html.twig', [
-                'user'  => $user,
-                'token' => $user->getResetToken()
-            ]);
+            $mailer->sendMessage(
+                'noreply@snowtricks.com',
+                $user->getEmail(),
+                $user->getUsername(),
+                'Mot de passe oublié',
+                'email/reset-password.html.twig',
+                [
+                    'user'  => $user,
+                    'token' => $user->getResetToken(),
+                ]
+            );
 
             $this->addFlash('success', 'Un email de réinitialisation du mot de passe vient de vous être envoyé.');
 
             return $this->redirectToRoute('login');
         }
 
-        return $this->render('security/forgotten-password.html.twig', [
-            'controller_name' => 'AccountController',
-            'form'            => $form->createView(),
-        ]);
+        return $this->render(
+            'security/forgotten-password.html.twig',
+            [
+                'controller_name' => 'AccountController',
+                'form'            => $form->createView(),
+            ]
+        );
     }
 
     /**
@@ -112,6 +127,7 @@ class ResetPasswordController extends AbstractController
         if ($token !== $user->getResetToken()) {
 
             $this->addFlash('error', 'Token Inconnu');
+
             return $this->redirectToRoute('login');
         }
         $form = $this->createForm(ResetPasswordType::class, $user);
@@ -128,10 +144,14 @@ class ResetPasswordController extends AbstractController
 
             return $this->redirectToRoute('login');
         }
-        return $this->render('security/reset-password.html.twig', [
-            'controller_name' => 'AccountController',
-            'token'           => $token,
-            'form'            => $form->createView()
-        ]);
+
+        return $this->render(
+            'security/reset-password.html.twig',
+            [
+                'controller_name' => 'AccountController',
+                'token'           => $token,
+                'form'            => $form->createView(),
+            ]
+        );
     }
 }

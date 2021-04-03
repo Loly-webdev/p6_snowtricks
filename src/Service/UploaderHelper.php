@@ -10,9 +10,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class UploaderHelper
 {
-    /**
-     * @var string
-     */
     private string $uploadsPath;
 
     /**
@@ -33,9 +30,9 @@ class UploaderHelper
      */
     public function uploadPicture(UploadedFile $uploadedFile, string $folder): string
     {
-        $load             = $this->uploadsPath . '/' . $folder;
+        $load             = $this->uploadsPath.'/'.$folder;
         $originalFilename = basename($uploadedFile->getClientOriginalName());
-        $newFilename      = $originalFilename . '-' . uniqid('', true) . '.' . $uploadedFile->guessExtension();
+        $newFilename      = $originalFilename.'-'.uniqid('', true).'.'.$uploadedFile->guessExtension();
 
         $uploadedFile->move(
             $load,

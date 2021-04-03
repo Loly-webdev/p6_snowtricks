@@ -21,11 +21,14 @@ class HomeController extends AbstractController
     {
         $user = $security->getUser();
 
-        return $this->render('home/index.html.twig', [
-            'username' => null === $user
-                ? ''
-                : $user->getUsername(),
-            'tricks'   => $trickRepository->findAll()
-        ]);
+        return $this->render(
+            'home/index.html.twig',
+            [
+                'username' => null === $user
+                    ? ''
+                    : $user->getUsername(),
+                'tricks'   => $trickRepository->findAll(),
+            ]
+        );
     }
 }

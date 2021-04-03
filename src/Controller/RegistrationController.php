@@ -33,11 +33,14 @@ class RegistrationController extends AbstractController
      */
     private TokenGeneratorInterface $token;
 
-    public function __construct(EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder, TokenGeneratorInterface $token)
-    {
-        $this->manager        = $manager;
-        $this->encoder        = $encoder;
-        $this->token = $token;
+    public function __construct(
+        EntityManagerInterface $manager,
+        UserPasswordEncoderInterface $encoder,
+        TokenGeneratorInterface $token
+    ) {
+        $this->manager = $manager;
+        $this->encoder = $encoder;
+        $this->token   = $token;
     }
 
     /**
@@ -71,21 +74,31 @@ class RegistrationController extends AbstractController
             $this->manager->persist($user);
             $this->manager->flush();
 
-            $mailer->sendMessage('noreply@snowtricks.com',
-                                 $user->getEmail(),
-                                 $user->getUsername(),
-                                 'Activer votre compte',
-                                 'email/activation.html.twig', [
-                                     'user'  => $user,
-                                     'token' => $user->getActivationToken()
-                                 ]);
+            $mailer->sendMessage(
+                'noreply@snowtricks.com',
+                $user->getEmail(),
+                $user->getUsername(),
+                'Activer votre compte',
+                'email/activation.html.twig',
+                [
+                    'user'  => $user,
+                    'token' => $user->getActivationToken(),
+                ]
+            );
 
-            $this->addFlash('success', 'Votre compte a bien été créé. Un email vient de vous être envoyé pour activer votre compte.');
+            $this->addFlash(
+                'success',
+                'Votre compte a bien été créé. Un email vient de vous être envoyé pour activer votre compte.'
+            );
         }
-        return $this->render('security/register.html.twig', [
-            'controller_name' => 'AccountController',
-            'form'            => $form->createView()
-        ]);
+
+        return $this->render(
+            'security/register.html.twig',
+            [
+                'controller_name' => 'AccountController',
+                'form'            => $form->createView(),
+            ]
+        );
     }
 
     /**
@@ -102,6 +115,7 @@ class RegistrationController extends AbstractController
         $this->manager->flush();
 
         $this->addFlash('success', 'Votre compte a bien été activé.');
+
         return $this->redirectToRoute('login');
     }
 }

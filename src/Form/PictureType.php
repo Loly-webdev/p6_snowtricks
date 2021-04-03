@@ -2,21 +2,19 @@
 
 namespace App\Form;
 
-use App\Entity\User;
+use App\Entity\Picture;
 use App\Form\ApplicationType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 /**
- * Class RegistrationType
+ * Class PictureType
  * @package App\Form
  */
-class RegistrationType extends ApplicationType
+class PictureType extends ApplicationType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -24,17 +22,24 @@ class RegistrationType extends ApplicationType
      */
     public function buildForm(FormBuilderInterface $builder, array $options = []): void
     {
+        unset($options);
         $builder
-            ->add('username', TextType::class, $this->fieldsConfiguration('Votre pseudo.'))
-            ->add('email', EmailType::class, $this->fieldsConfiguration('Votre adresse email.'))
-            ->add('password', PasswordType::class, $this->fieldsConfiguration('Votre mot de passe.'))
-            ->add('passwordVerification', PasswordType::class, $this->fieldsConfiguration('Confirmer le mot de passe.'))
             ->add(
-                'profile_picture',
+                'file',
                 FileType::class,
                 [
                     'required' => false,
                 ]
+            )
+            ->add(
+                'path',
+                TextType::class,
+                $this->fieldsConfiguration("Nom du fichier")
+            )
+            ->add(
+                'caption',
+                TextType::class,
+                $this->fieldsConfiguration("Titre de l'image")
             );
     }
 
@@ -45,8 +50,8 @@ class RegistrationType extends ApplicationType
     {
         $resolver->setDefaults(
             [
-                'data_class'         => User::class,
-                'translation_domain' => 'account-form',
+                'data_class'         => Picture::class,
+                'translation_domain' => 'picture-form',
             ]
         );
     }

@@ -2,16 +2,18 @@
 
 namespace App\Form;
 
-use App\Entity\User;
+use App\Entity\Video;
+use App\Form\ApplicationType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
- * Class ResetPasswordType
+ * Class VideoType
  * @package App\Form
  */
-class ResetPasswordType extends ApplicationType
+class VideoType extends ApplicationType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -19,11 +21,17 @@ class ResetPasswordType extends ApplicationType
      */
     public function buildForm(FormBuilderInterface $builder, array $options = []): void
     {
+        unset($options);
         $builder
             ->add(
-                'password',
-                PasswordType::class,
-                $this->fieldsConfiguration('Veuillez saisir un mot de passe.')
+                'name',
+                TextType::class,
+                $this->fieldsConfiguration("Titre de la vidéo")
+            )
+            ->add(
+                'url',
+                UrlType::class,
+                $this->fieldsConfiguration("URL de la vidéo.")
             );
     }
 
@@ -34,10 +42,9 @@ class ResetPasswordType extends ApplicationType
     {
         $resolver->setDefaults(
             [
-                'data_class'         => User::class,
-                'translation_domain' => 'account-form',
+                'data_class'         => Video::class,
+                'translation_domain' => 'video-form',
             ]
         );
     }
 }
-

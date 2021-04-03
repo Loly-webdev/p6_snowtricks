@@ -13,10 +13,6 @@ use Symfony\Component\Mailer\MailerInterface;
  */
 class Mailer
 {
-
-    /**
-     * @var MailerInterface
-     */
     private MailerInterface $mailerInterface;
 
     /**
@@ -39,8 +35,14 @@ class Mailer
      *
      * @throws TransportExceptionInterface
      */
-    public function sendMessage(string $from, string $toEmail, string $toUsername, string $subject, string $template, array $parameters): void
-    {
+    public function sendMessage(
+        string $from,
+        string $toEmail,
+        string $toUsername,
+        string $subject,
+        string $template,
+        array $parameters
+    ): void {
         $email = (new TemplatedEmail())
             ->from(new Address($from))
             ->to(new Address($toEmail, $toUsername))

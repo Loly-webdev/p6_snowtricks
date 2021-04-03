@@ -2,16 +2,12 @@
 
 namespace App\Form;
 
-use App\Entity\User;
+use App\Entity\Comment;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
-/**
- * Class ResetPasswordType
- * @package App\Form
- */
-class ResetPasswordType extends ApplicationType
+class CommentType extends ApplicationType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -19,11 +15,12 @@ class ResetPasswordType extends ApplicationType
      */
     public function buildForm(FormBuilderInterface $builder, array $options = []): void
     {
+        unset($options);
         $builder
             ->add(
-                'password',
-                PasswordType::class,
-                $this->fieldsConfiguration('Veuillez saisir un mot de passe.')
+                'content',
+                TextareaType::class,
+                $this->fieldsConfiguration('Veuillez saisir votre commentaire.')
             );
     }
 
@@ -34,10 +31,9 @@ class ResetPasswordType extends ApplicationType
     {
         $resolver->setDefaults(
             [
-                'data_class'         => User::class,
-                'translation_domain' => 'account-form',
+                'data_class'         => Comment::class,
+                'translation_domain' => 'comment-form',
             ]
         );
     }
 }
-

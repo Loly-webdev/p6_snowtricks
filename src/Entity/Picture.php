@@ -16,17 +16,17 @@ class Picture
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $path;
+    private ?string $path;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $caption;
+    private ?string $caption;
 
     private $file;
 
@@ -34,7 +34,7 @@ class Picture
      * @ORM\ManyToOne(targetEntity="App\Entity\Trick", inversedBy="pictures")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $trick;
+    private ?Trick $trick;
 
     /**
      * @return int|null

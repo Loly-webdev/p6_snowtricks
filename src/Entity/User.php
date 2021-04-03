@@ -109,7 +109,6 @@ class User implements UserInterface
 
     /**
      * A visual identifier that represents this user.
-     *
      * @see UserInterface
      */
     public function getUsername(): string
@@ -196,7 +195,6 @@ class User implements UserInterface
     /**
      * Returning a salt is only needed, if you are not using a modern
      * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
-     *
      * @see UserInterface
      */
     public function getSalt(): ?string
@@ -265,8 +263,8 @@ class User implements UserInterface
     }
 
     /**
-     * @see UserInterface
      * @return void
+     * @see UserInterface
      */
     public function eraseCredentials(): void
     {
@@ -355,6 +353,11 @@ class User implements UserInterface
         return $this;
     }
 
+    public function getIsVerified(): ?bool
+    {
+        return $this->isVerified;
+    }
+
     public function isVerified(): bool
     {
         return $this->isVerified;
@@ -365,10 +368,5 @@ class User implements UserInterface
         $this->isVerified = $isVerified;
 
         return $this;
-    }
-
-    public function getIsVerified(): ?bool
-    {
-        return $this->isVerified;
     }
 }
