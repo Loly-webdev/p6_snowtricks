@@ -6,7 +6,6 @@ use App\Entity\Comment;
 use App\Entity\Trick;
 use App\Form\CommentType;
 use App\Form\TrickType;
-use App\Service\FileUploader;
 use App\Service\Paginator;
 use App\Service\UploaderHelper;
 use DateTime;
@@ -74,7 +73,10 @@ class TrickController extends AbstractController
             $this->manager->persist($trick);
             $this->manager->flush();
 
-            $this->addFlash('success', "La nouvelle figure  a bien été enregistrée.");
+            $this->addFlash(
+                'success',
+                "La nouvelle figure  a bien été enregistrée."
+            );
 
             return $this->redirectToRoute('trick_show', [
                 'slug' => $trick->getSlug()
@@ -82,6 +84,7 @@ class TrickController extends AbstractController
         }
         return $this->render('trick/new.html.twig', [
             'controller_name' => 'TrickController',
+            'trick'           => $trick,
             'form'            => $form->createView()
         ]);
     }

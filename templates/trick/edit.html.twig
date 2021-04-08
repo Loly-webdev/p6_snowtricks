@@ -81,7 +81,7 @@
                                     {% endif %}
                                 {% endfor %}
                             </div>
-                            <button type="button" class="mb-3 btn btn-primary btn-add-images mt-4" id="add-picture">
+                            <button type="button" class="mb-3 btn btn-primary btn-add-images mt-4 btn-add-picture" id="add_picture">
                                 Ajouter une autre photo
                             </button>
                             <hr class="mx-5">
@@ -134,9 +134,20 @@
                 </div>
             </div>
         </div>
-        <a href="{{ path('home') }}" type="button" class="btn-add-picture btn btn-info" id="add_picture">
+        <a href="{{ path('home') }}" type="button" class="btn-add-picture btn btn-info">
             <span class="fas fa-angle-double-left"></span>
             Retour à la liste des figures
         </a>
     </section>
+{% endblock %}
+{% block form_row %}
+    <div class="edit-trick-form-row">
+        <label class="font-weight-bold text-info">
+            {{ form_label(form) }}
+        </label>
+        {{ form_widget(form) }}
+        <div class="add-trick-form-error">
+            {{ form_errors(form) }}
+        </div>
+    </div>
 {% endblock %}
