@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
  * @Route("/trick")
@@ -120,13 +121,13 @@ class TrickController extends AbstractController
 
     /**
      * @Route("/trick/{slug}/edit", name="trick_edit", methods={"GET","POST"})
-     * @param Request      $request
-     * @param Trick        $trick
-     * @param FileUploader $fileUploader
+     * @param Request          $request
+     * @param Trick            $trick
+     * @param SluggerInterface $slugger
      *
      * @return Response
      */
-    public function edit(Request $request, Trick $trick, FileUploader $fileUploader): Response
+    public function edit(Request $request, Trick $trick, SluggerInterface $slugger): Response
     {
         $originalPictures = new ArrayCollection();
         $originalVideos   = new ArrayCollection();
@@ -140,7 +141,10 @@ class TrickController extends AbstractController
             // this condition is needed because the 'brochure' field is not required
             // so the PDF file must be processed only when a file is uploaded
             if ($uploadedFile) {
-                $newFilename = $fileUploader->upload($form, $uploadedFile, 'picture');
+                $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename  = $safeFilename.'-'.uniqid('', true).'.'.$uploadedFile->guessExtension();
 
                 // Move the file to the directory where brochures are stored
                 try {
@@ -166,13 +170,13 @@ class TrickController extends AbstractController
                 }
             }
 
-            $videos = $form['videos']->getData();
-            foreach ($videos as $video) {
-                $video->setTrick($trick);
-                $this->manager->persist($video);
+            foreach ($originalVideos as $video) {
+                if (false === $trick->getVideos()->contains($video)) {
+                    $video->getTrick()->removeElement($trick);
+                    $this->manager->persist($video);
+                }
             }
 
-            $trick->setUpdatedAt(new DateTime());
             $this->manager->persist($trick);
             $this->manager->flush();
 
