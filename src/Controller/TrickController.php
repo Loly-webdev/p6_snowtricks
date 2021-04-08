@@ -8,6 +8,7 @@ use App\Form\CommentType;
 use App\Form\TrickType;
 use App\Service\FileUploader;
 use App\Service\Paginator;
+use App\Service\UploaderHelper;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -40,37 +41,49 @@ class TrickController extends AbstractController
 
     /**
      * @Route("/trick/new", name="trick_new", methods={"GET","POST"})
-     * @param Request $request
+     * @param Request        $request
+     * @param UploaderHelper $uploaderHelper
      *
      * @return Response
      */
-    public function new(Request $request): Response
+    public function new(Request $request, UploaderHelper $uploaderHelper): Response
     {
         $trick = new Trick();
-        $form  = $this->createForm(TrickType::class, $trick);
+
+        $form = $this->createForm(TrickType::class, $trick);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $pictures = $form['pictures']->getData();
+            foreach ($pictures as $picture) {
+                $uploadedFile = $picture->getFile();
+                if ($uploadedFile) {
+                    $newFilename = $uploaderHelper->uploadPicture($uploadedFile, 'pictures');
+                    $picture->setPath($newFilename);
+                }
+                $picture->setTrick($trick);
+                $this->manager->persist($picture);
+            }
+
+            foreach ($trick->getVideos() as $video) {
+                $video->setTrick($trick);
+                $this->manager->persist($video);
+            }
+
             $this->manager->persist($trick);
             $this->manager->flush();
 
             $this->addFlash('success', "La nouvelle figure  a bien été enregistrée.");
 
-            return $this->redirectToRoute(
-                'trick_show',
-                [
-                    'slug' => $trick->getSlug(),
-                ]
-            );
+            return $this->redirectToRoute('trick_show', [
+                'slug' => $trick->getSlug()
+            ]);
         }
-
-        return $this->render(
-            'trick/new.html.twig',
-            [
-                'trick' => $trick,
-                'form'  => $form->createView(),
-            ]
-        );
+        return $this->render('trick/new.html.twig', [
+            'controller_name' => 'TrickController',
+            'form'            => $form->createView()
+        ]);
     }
 
     /**

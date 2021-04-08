@@ -21,6 +21,8 @@ Encore
      * and one CSS file (e.g. base.css) if your JavaScript imports CSS.
      */
     .addEntry('js/app', './assets/js/app.js')
+    .addEntry('js/add-trick', './assets/js/add-trick.js')
+    .addEntry('js/edit-trick', './assets/js/edit-trick.js')
 
     .addStyleEntry('styles/app', './assets/styles/app.scss')
 

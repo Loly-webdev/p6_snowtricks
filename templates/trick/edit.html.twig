@@ -40,7 +40,7 @@
                             {% endfor %}
                         {% endif %}
                     </div>
-                    <div class="my-5">
+                    <div class="mx-2 my-5 text-info font-weight-bold">
                         {{ form_row(form.name) }}
                         <br>
                         {{ form_row(form.category) }}
@@ -139,16 +139,4 @@
             Retour à la liste des figures
         </a>
     </section>
-{% endblock %}
-{% block form_row %}
-    <div class="edit-trick-content-form-row">
-        <strong class="mt-3 text-info">
-            {{ form_label(form) }}
-        </strong>
-        <br>
-        {{ form_widget(form) }}
-        <div class="edit-trick-content-form-error">
-            {{ form_errors(form) }}
-        </div>
-    </div>
 {% endblock %}

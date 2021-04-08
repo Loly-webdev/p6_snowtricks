@@ -123,20 +123,16 @@
                 </div>
                 <div class="trick-comment-add-form">
                     {{ form_start(form) }}
-                    {{ form_row(form.content) }}
+                    <strong class="text-info">
+                        {{ form_row(form.content) }}
+                    </strong>
+                    <div class="trick-comment-add-form-row-error">
+                        {{ form_errors(form) }}
+                    </div>
                     <button type="submit" class="btn btn-success">Valider</button>
                     {{ form_end(form) }}
                 </div>
             </div>
         {% endif %}
     </section>
-{% endblock %}
-{% block form_row %}
-    <div class="trick-comment-add-form-row">
-        {{ form_label(form) }}
-        {{ form_widget(form) }}
-        <div class="trick-comment-add-form-row-error">
-            {{ form_errors(form) }}
-        </div>
-    </div>
 {% endblock %}
