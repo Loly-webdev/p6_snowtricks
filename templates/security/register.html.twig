@@ -5,16 +5,23 @@
     <section class="register">
         <div class="register-title container my-5 text-center">
             <h2 class="mb-5">Inscription</h2>
-            <div class="register-form border py-5">
+            <div class="register-form border px-5">
                 <div class="mx-2 text-info font-weight-bold">
                     {{ form_start(form) }}
                     {{ form_row(form.username) }}
                     {{ form_row(form.email) }}
                     {{ form_row(form.password) }}
                     {{ form_row(form.passwordVerification) }}
-                    {{ form_row(form.profile_picture) }}
+                    {{ form_row(form.profile_picture, {
+                        attr: {
+                            'placeholder': 'Selectionner une image de profil'
+                        },
+                        label_attr: {
+                            class: 'custom-file-label'
+                        }
+                    }) }}
                 </div>
-                <button type="submit" class="mt-2 btn-round-shadow btn btn-primary">
+                <button type="submit" class="my-4 btn-round-shadow btn btn-primary">
                     <span class="fas fa-file-signature"></span>
                     Inscription
                 </button>
@@ -24,12 +31,12 @@
     </section>
 {% endblock %}
 {% block form_row %}
-    <div class="register-form-form-row">
-        <label class="font-weight-bold text-info">
+    <div class="register-form-row">
+        <div class="mt-4 font-weight-bold text-info">
             {{ form_label(form) }}
-        </label>
+        </div>
         {{ form_widget(form) }}
-        <div class="form-error">
+        <div class="register-form-error">
             {{ form_errors(form) }}
         </div>
     </div>
