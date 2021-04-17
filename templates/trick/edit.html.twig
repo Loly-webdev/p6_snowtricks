@@ -13,8 +13,8 @@
             <em>Date de modification :
                 {{ trick.updatedAt|date("d/m/Y") }}</em>
         </div>
-        <div class=" mt-3 mb-5 edit-trick-content-more">
-            <div class="edit-trick-content-more-target">
+        <div class=" mt-3 mb-5 edit-trick-content">
+            <div class="edit-trick-content-target">
                 <div class="border py-4">
                     {{ form_start(form, { "attr": { "class": "edit-trick-content-form"} }) }}
                     <div class="edit-trick-content-more">
@@ -24,17 +24,19 @@
                                     <h5 class="text-muted">
                                         {{ picture.caption }}
                                     </h5>
-                                    <img class="shadow rounded img-fluid mt-4 edit-trick-content-picture-featured"
-                                         src="{{ asset('uploads/pictures/' ~ picture.path) }}"
-                                         alt="">
-                                    <h6 class="my-3 text-muted">
-                                        {{ picture.path }}
-                                    </h6>
-                                    <div class="mx-5 py-2 bg-secondary shadow rounded edit-trick-content-picture-featured-icon">
-                                        <a href="" class="btn-delete-picture btn btn-danger" type="button"
-                                           onclick="return confirm('Etes-vous sûr ?');">
-                                            <span class="fas fa-trash-alt"></span>
-                                        </a>
+                                    <div class="edit-trick-content-picture-featured">
+                                        <img class="shadow rounded img-fluid mt-4"
+                                             src="{{ asset('uploads/pictures/' ~ picture.path) }}"
+                                             alt="">
+                                        <h6 class="my-3 text-muted">
+                                            {{ picture.path }}
+                                        </h6>
+                                        <div class="mx-5 py-2 bg-secondary shadow rounded edit-trick-content-picture-featured-icon">
+                                            <a href="" class="btn-delete-picture btn btn-danger" type="button"
+                                               onclick="return confirm('Etes-vous sûr ?');">
+                                                <span class="fas fa-trash-alt"></span>
+                                            </a>
+                                        </div>
                                     </div>
                                 {% endif %}
                             {% endfor %}
@@ -42,9 +44,7 @@
                     </div>
                     <div class="mx-2 my-5 text-info font-weight-bold">
                         {{ form_row(form.name) }}
-                        <br>
                         {{ form_row(form.category) }}
-                        <br>
                         {{ form_row(form.description) }}
                     </div>
                     <div>
@@ -81,7 +81,8 @@
                                     {% endif %}
                                 {% endfor %}
                             </div>
-                            <button type="button" class="mb-3 btn btn-primary btn-add-images mt-4 btn-add-picture" id="add_picture">
+                            <button type="button" class="mb-3 btn btn-primary btn-add-images mt-4 btn-add-picture"
+                                    id="add_picture">
                                 Ajouter une autre photo
                             </button>
                             <hr class="mx-5">
@@ -141,7 +142,7 @@
     </section>
 {% endblock %}
 {% block form_row %}
-    <div class="edit-trick-form-row">
+    <div class="mb-3 edit-trick-form-row">
         <label class="font-weight-bold text-info">
             {{ form_label(form) }}
         </label>
@@ -149,5 +150,49 @@
         <div class="add-trick-form-error">
             {{ form_errors(form) }}
         </div>
+    </div>
+{% endblock %}
+{% block _trick_pictures_row %}
+    {{ form_widget(form) }}
+    <button type="button" class="btn-add-picture" id="add_picture">Ajouter une autre photo</button>
+{% endblock %}
+{% block _trick_pictures_entry_widget %}
+    <div class="modal-none">
+        <div class="edit-trick-content-form-entry">
+            {{ form_label(form.file)}}
+            {{ form_widget(form.file)}}
+            <div class="edit-trick-content-form-error">
+                {{ form_errors(form.file) }}
+            </div>
+        </div>
+        <div class="edit-trick-content-form-entry">
+            {{ form_label(form.caption)}}
+            {{ form_widget(form.caption)}}
+            <div class="edit-trick-content-form-error">
+                {{ form_errors(form.caption) }}
+            </div>
+        </div>
+        <button type="button" class="btn-delete-picture fas fa-trash-alt"></button>
+    </div>
+{% endblock %}
+{% block _trick_videos_row %}
+    {{ form_widget(form) }}
+    <button type="button" class="btn-add-video" id="add_video">Ajouter une autre vidéo</button>{% endblock %}{% block _trick_videos_entry_widget %}
+    <div class="modal-none">
+        <div class="edit-trick-content-form-entry">
+            {{ form_label(form.url) }}
+            {{ form_widget(form.url) }}
+            <div class="edit-trick-content-form-error">
+                {{ form_errors(form.url) }}
+            </div>
+        </div>
+        <div class="edit-trick-content-form-entry">
+            {{ form_label(form.name) }}
+            {{ form_widget(form.name) }}
+            <div class="edit-trick-content-form-error">
+                {{ form_errors(form.name) }}
+            </div>
+        </div>
+        <button type="button" class="btn-delete-video fas fa-trash-alt"></button>
     </div>
 {% endblock %}

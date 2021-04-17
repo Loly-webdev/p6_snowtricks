@@ -3,7 +3,7 @@
 {% form_theme form _self %}
 {% block content %}
     <section class="register">
-        <div class="register-title container my-5 text-center">
+        <div class="container my-5 text-center">
             <h2 class="mb-5">Inscription</h2>
             <div class="register-form border px-5">
                 <div class="mx-2 text-info font-weight-bold">
@@ -15,9 +15,6 @@
                     {{ form_row(form.profile_picture, {
                         attr: {
                             'placeholder': 'Selectionner une image de profil'
-                        },
-                        label_attr: {
-                            class: 'custom-file-label'
                         }
                     }) }}
                 </div>

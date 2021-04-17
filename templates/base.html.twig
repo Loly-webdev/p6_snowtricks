@@ -30,12 +30,6 @@
     </footer>
 {% endblock %}
 {% block javascripts %}
-    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            bsCustomFileInput.init()
-        })
-    </script>
     {{ encore_entry_script_tags('js/app') }}
     {{ encore_entry_script_tags('js/add-trick') }}
     {{ encore_entry_script_tags('js/edit-trick') }}

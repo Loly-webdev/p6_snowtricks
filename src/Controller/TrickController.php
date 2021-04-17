@@ -12,11 +12,9 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
  * @Route("/trick")
@@ -137,53 +135,36 @@ class TrickController extends AbstractController
 
     /**
      * @Route("/trick/{slug}/edit", name="trick_edit", methods={"GET","POST"})
-     * @param Request          $request
-     * @param Trick            $trick
-     * @param SluggerInterface $slugger
+     * @param Request        $request
+     * @param Trick          $trick
+     * @param UploaderHelper $uploaderHelper
      *
      * @return Response
      */
-    public function edit(Request $request, Trick $trick, SluggerInterface $slugger): Response
+    public function edit(Request $request, Trick $trick, UploaderHelper $uploaderHelper): Response
     {
         $originalPictures = new ArrayCollection();
         $originalVideos   = new ArrayCollection();
-        $trick->setUpdatedAt(new Datetime());
 
         $form = $this->createForm(TrickType::class, $trick);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $uploadedFile = $form->get('picture')->getData();
-
-            // this condition is needed because the 'brochure' field is not required
-            // so the PDF file must be processed only when a file is uploaded
-            if ($uploadedFile) {
-                $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename  = $safeFilename.'-'.uniqid('', true).'.'.$uploadedFile->guessExtension();
-
-                // Move the file to the directory where brochures are stored
-                try {
-                    $uploadedFile->move(
-                        $this->getParameter('pictures_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-
-                // updates the 'brochureFilename' property to store the PDF file name
-                // instead of its contents
-                $uploadedFile->setFile($newFilename);
-            }
-            $uploadedFile->setTrick($trick);
-            $this->manager->persist($uploadedFile);
-
+        if($form->isSubmitted() && $form->isValid()) {
             foreach ($originalPictures as $picture) {
                 if (false === $trick->getPictures()->contains($picture)) {
                     $picture->getTrick()->removeElement($trick);
                     $this->manager->persist($picture);
                 }
+            }
+
+            $pictures = $form['pictures']->getData();
+            foreach($pictures as $picture) {
+                $uploadedFile = $picture->getFile();
+                if($uploadedFile) {
+                    $newFilename = $uploaderHelper->uploadPicture($uploadedFile, 'pictures');
+                    $picture->setPath($newFilename);
+                }
+                $picture->setTrick($trick);
+                $this->manager->persist($picture);
             }
 
             foreach ($originalVideos as $video) {
@@ -193,30 +174,25 @@ class TrickController extends AbstractController
                 }
             }
 
+            $videos = $form['videos']->getData();
+            foreach($videos as $video) {
+                $video->setTrick($trick);
+                $this->manager->persist($video);
+            }
+
+            $trick->setUpdatedAt(new DateTime());
             $this->manager->persist($trick);
             $this->manager->flush();
-
-            $this->addFlash(
-                'success',
-                'La figure a bien été modifié.'
-            );
-
-            return $this->redirectToRoute(
-                'trick_show',
-                [
-                    'slug' => $trick->getSlug(),
-                ]
-            );
+            $this->addFlash('success', "La figure a bien été modifié.");
+            return $this->redirectToRoute('trick_show', [
+                'slug' => $trick->getSlug()
+            ]);
         }
-
-        return $this->render(
-            'trick/edit.html.twig',
-            [
-                'controller_name' => 'TrickController',
-                'trick'           => $trick,
-                'form'            => $form->createView(),
-            ]
-        );
+        return $this->render('trick/edit.html.twig', [
+            'controller_name' => 'TrickController',
+            'trick' => $trick,
+            'form' => $form->createView()
+        ]);
     }
 
     /**

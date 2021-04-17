@@ -69,13 +69,13 @@
     })
 
     function addRemoveBtn() {
-        document.querySelectorAll('button.btn-delete-picture.fas.fa-trash-alt').forEach((element) => {
+        document.querySelectorAll('button.btn-delete-picture').forEach((element) => {
             element.addEventListener('click', function(event) {
                 event.preventDefault();
                 this.parentNode.parentNode.remove();
             })
         })
-        document.querySelectorAll('button.btn-delete-video.fas.fa-trash-alt').forEach((element) => {
+        document.querySelectorAll('button.btn-delete-video').forEach((element) => {
             element.addEventListener('click', function (event) {
                 event.preventDefault();
                 this.parentNode.parentNode.remove();
@@ -134,11 +134,11 @@
     document.querySelectorAll('.js-modal-video').forEach(a => {
         a.addEventListener('click', openModal);
     })
-    const btnDeletePicture = document.querySelectorAll('.btn-delete-picture.fas.fa-trash-alt');
+    const btnDeletePicture = document.querySelectorAll('.btn-delete-picture');
     for (let i = 0; i < btnDeletePicture.length; i++) {
         btnDeletePicture[i].setAttribute("href", "#modal-picture-" + i);
     }
-    const btnDeleteVideo = document.querySelectorAll('.btn-delete-video.fas.fa-trash-alt');
+    const btnDeleteVideo = document.querySelectorAll('.btn-delete-video');
     for (let i = 0; i < btnDeleteVideo.length; i++) {
         btnDeleteVideo[i].setAttribute("href", "#modal-video-" + i);
     }

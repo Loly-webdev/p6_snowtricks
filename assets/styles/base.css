@@ -21,3 +21,6 @@ nav img {
 a {
     text-decoration: none;
 }
+
+.custom-file-label { opacity: 0; }
+.custom-file-input { opacity: 1; }
