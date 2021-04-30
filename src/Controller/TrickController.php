@@ -11,7 +11,9 @@ use App\Service\UploaderHelper;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -196,24 +198,24 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("/trick/{slug}/delete", name="trick_delete", methods={"DELETE"})
-     * @param Request $request
-     * @param Trick   $trick
+     * @Route("/trick/{slug}/delete", name="trick_delete")
+     * @IsGranted("ROLE_USER")
+     * @param Trick $trick
      *
      * @return Response
      */
-    public
-    function delete(
-        Request $request,
-        Trick $trick
-    ): Response {
-        if ($this->isCsrfTokenValid('delete'.$trick->getId(), $request->request->get('_token'))) {
-            $this->manager->remove($trick);
-            $this->manager->flush();
+    public function delete(Trick $trick): Response
+    {
+        $filesystem = new Filesystem();
 
-            $this->addFlash('success', "La figure {$trick->getName()} a bien été supprimé.");
+        foreach ($trick->getPictures() as $picture) {
+            $filesystem->remove('uploads/pictures/' .$picture->getPath());
         }
 
+        $this->manager->remove($trick);
+        $this->manager->flush();
+
+        $this->addFlash('success', "La figure {$trick->getName()} a bien été supprimé.");
         return $this->redirectToRoute('home');
     }
 }

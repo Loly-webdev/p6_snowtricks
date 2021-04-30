@@ -82,10 +82,10 @@
         <div class="text-center mx-5 my-2 py-2 bg-secondary shadow rounded trick-title-icon">
             <a href="{{ edit_url }}" class="btn btn-primary" type="button">
                 <span class="fas fa-pencil-alt"></span>
-                Moditer cette figure
             </a>
-            <a href="{{ delete_url }}">
-                {{ include('trick/_delete_form.html.twig') }}
+            <a href="{{ delete_url }}" class="btn btn-danger" type="button"
+               onclick="return confirm('Etes-vous sûr de vouloir supprimer cette figure ?');">
+                <span class="fas fa-trash-alt"></span>
             </a>
         </div>
     {% endif %}

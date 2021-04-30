@@ -23,6 +23,7 @@ Encore
     .addEntry('js/app', './assets/js/app.js')
     .addEntry('js/add-trick', './assets/js/add-trick.js')
     .addEntry('js/edit-trick', './assets/js/edit-trick.js')
+    .addEntry('js/delete-trick', './assets/js/delete-trick.js')
 
     .addStyleEntry('styles/app', './assets/styles/app.scss')
 

@@ -28,7 +28,7 @@ $(document).ready(function () {
         const template = $containerPicture.attr('data-prototype').replace(/__name__/g, index)
         ;
 
-        // Creation of an jQuery object wich contains the template
+        // Creation of an jQuery object which contains the template
         let $prototype = $(template);
 
         addDeleteLinkPicture($prototype);
@@ -58,7 +58,7 @@ $(document).ready(function () {
     // Recovery of the <div>
     let $containerVideo = $('div#trick_videos');
 
-    // Définition of the counter to name the added fiels
+    // Definition of the counter to name the added files
     index = $containerVideo.find('input').length;
 
     // Need a new field to each click on the add link
@@ -68,7 +68,7 @@ $(document).ready(function () {
         return false;
     });
 
-    // Adding a first fiels if there is not already one
+    // Adding a first files if there is not already one
     if (index === 0) {
         addVideo($containerVideo);
     } else {
@@ -83,7 +83,7 @@ $(document).ready(function () {
         const template = $containerVideo.attr('data-prototype').replace(/__name__/g, index)
         ;
 
-        // Creation of an jQuery object wich contains the template
+        // Creation of an jQuery object which contains the template
         let $prototype = $(template);
 
         addDeleteLinkVideo($prototype);

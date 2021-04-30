@@ -1,4 +1,4 @@
-(function () {
+window.onload = () => {
     const containerPicture = document.getElementById('trick_pictures');
     const containerVideo = document.getElementById('trick_videos');
 
@@ -11,8 +11,8 @@
     if (indexVideo === 0) {
         addVideoForm(containerVideo);
     }
-    const createModalPicture = function() {
-        const btn = '<button type="button" class="js-modal-close">X</button>';
+    const createModalPicture = () => {
+        const btn = '<button type="button" class="js-modal-close"><i class="fas fa-times"></i></button>';
         const formRow = containerPicture.querySelectorAll('.edit-trick-content-form-row');
         const elModal = document.querySelectorAll('.js-modal-picture');
         const modalWrapper = containerPicture.querySelectorAll('.modal-none');
@@ -33,8 +33,8 @@
         }
 
     }
-    const createModalVideo = function() {
-        const btn = '<button type="button" class="js-modal-close">X</button>';
+    const createModalVideo = () => {
+        const btn = '<button type="button" class="js-modal-close"><i class="fas fa-times"></i></button>';
         const formRow = containerVideo.querySelectorAll('.edit-trick-content-form-row');
         const elModal = document.querySelectorAll('.js-modal-video');
         const modalWrapper = containerVideo.querySelectorAll('.modal-none');
@@ -55,6 +55,7 @@
         }
 
     }
+
     createModalPicture();
     createModalVideo();
 
@@ -100,7 +101,7 @@
     }
 
     let modal = null;
-    const openModal = function (event) {
+    const openModal = (event) => {
         event.preventDefault()
         let target = document.querySelector(event.target.getAttribute("href"));
         target.querySelector('.fas.fa-trash-alt').style.display = "none";
@@ -134,36 +135,4 @@
     document.querySelectorAll('.js-modal-video').forEach(a => {
         a.addEventListener('click', openModal);
     })
-    const btnDeletePicture = document.querySelectorAll('.btn-delete-picture');
-    for (let i = 0; i < btnDeletePicture.length; i++) {
-        btnDeletePicture[i].setAttribute("href", "#modal-picture-" + i);
-    }
-    const btnDeleteVideo = document.querySelectorAll('.btn-delete-video');
-    for (let i = 0; i < btnDeleteVideo.length; i++) {
-        btnDeleteVideo[i].setAttribute("href", "#modal-video-" + i);
-    }
-
-    btnDeleteVideo.forEach((element) => {
-        element.addEventListener('click', function (event) {
-            let target = document.querySelector(event.target.getAttribute("href"));
-            event.preventDefault();
-            if(target) {
-                target.remove();
-            }
-            this.parentNode.parentNode.remove();
-        })
-    })
-
-    btnDeletePicture.forEach((element) => {
-        element.addEventListener('click', function (event) {
-            let target = document.querySelector(event.target.getAttribute("href"));
-            event.preventDefault();
-            if(target) {
-                target.remove();
-            }
-            this.parentNode.parentNode.remove();
-        })
-    })
-
-
-})()
+};
