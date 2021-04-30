@@ -1,0 +1,199 @@
+{% extends 'base.html.twig' %}
+{% block title %}Modification d'une figure{% endblock %}
+{% form_theme form _self %}
+{% block content %}
+    <section class="container my-4 text-center edit-trick"><br>
+        <h2>Modification de la figure :
+            <strong class="text-primary">{{ trick.name }}</strong>
+        </h2>
+        <div class="text-muted mt-3">
+            <em>Date de création :
+                {{ trick.createdAt|date("d/m/Y") }}</em>
+            <br>
+            <em>Date de modification :
+                {{ trick.updatedAt|date("d/m/Y") }}</em>
+        </div>
+        <div class="mt-3 mb-5 edit-trick-content">
+            <div class="edit-trick-content-target">
+                <div class="border py-4">
+                    {{ form_start(form, { "attr": { "class": "edit-trick-content-form"} }) }}
+                    <div class="edit-trick-content-more">
+                        {% if trick.pictures is not empty %}
+                            {% for picture in trick.pictures %}
+                                {% if loop.first %}
+                                    <h5 class="text-muted">
+                                        {{ picture.caption }}
+                                    </h5>
+                                    <div class="edit-trick-content-picture-featured">
+                                        <img class="shadow rounded img-fluid mt-4"
+                                             src="{{ asset('uploads/pictures/' ~ picture.path) }}"
+                                             alt="">
+                                        <h6 class="my-3 text-muted">
+                                            {{ picture.path }}
+                                        </h6>
+                                        <div class="mx-5 py-2 bg-secondary shadow rounded edit-trick-content-picture-featured-icon">
+                                            <a href="" class="btn-delete-picture btn btn-danger" type="button"
+                                               onclick="return confirm('Etes-vous sûr ?');">
+                                                <span class="fas fa-trash-alt"></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="mx-2 my-5 text-info font-weight-bold">
+                        {{ form_row(form.name) }}
+                        {{ form_row(form.category) }}
+                        {{ form_row(form.description) }}
+                    </div>
+                    <div>
+                        <hr class="mx-5">
+                        <div class="mx-2">
+                            <!-- {{ form_row(form.pictures) }} -->
+                            <h3>Photos</h3>
+                            <div class="mb-4 edit-trick-content-picture-thumbnail row row-cols-1 row-cols-md-3 g-4">
+                                {% for picture in trick.pictures %}
+                                    {% if not loop.first %}
+                                        <div class="col my-2">
+                                            <div class="card h-100">
+                                                <figure class="card-img-top text-center edit-trick-content-picture-thumbnail-figure">
+                                                    <img class="img-fluid"
+                                                         src="{{ asset('uploads/pictures/' ~ picture.path) }}"
+                                                         alt="">
+                                                </figure>
+                                                <div class="card-body">
+                                                    <h5 class="card-title">
+                                                        Snowboard Tricks : {{ picture.path }}
+                                                    </h5>
+                                                </div>
+                                                <div class="card-footer">
+                                                    <div class="tricks-content-card-btn-icon edit-trick-content-picture-thumbnail-figure-icon">
+                                                        <a href="" class="btn-delete-picture btn btn-danger"
+                                                           type="button"
+                                                           onclick="return confirm('Etes-vous sûr ?');">
+                                                            <span class="fas fa-trash-alt"></span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <button type="button" class="mb-3 btn btn-primary btn-add-images mt-4 btn-add-picture"
+                                    id="add_picture">
+                                Ajouter une autre photo
+                            </button>
+                            <hr class="mx-5">
+                            <div class="mx-2">
+                                <!--  {{ form_row(form.videos) }} -->
+                                <h3>Vidéos</h3>
+                                <div class="mb-4 edit-trick-content-video-thumbnail">
+                                    <div class="row row-cols-1 row-cols-md-3 g-4 edit-trick-content-video">
+                                        {% if trick.videos is not empty %}
+                                            {% for video in trick.videos %}
+                                                <div class="col my-2">
+                                                    <div class="card h-100">
+                                                        <figure class="card-img-top text-center edit-trick-content-picture-thumbnail-figure">
+                                                            <div class="edit-trick-content-video-thumbnail-card">
+                                                                <iframe width="200" height="150" src="{{ video.url }}"
+                                                                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                                                        allowfullscreen></iframe>
+                                                            </div>
+                                                        </figure>
+                                                        <div class="card-body">
+                                                            <p>URL :
+                                                                <a href="{{ video.url }}" class="card-title">
+                                                                    {{ video.url }}
+                                                                </a>
+                                                            </p>
+                                                        </div>
+                                                        <div class="card-footer">
+                                                            <div class="edit-trick-content-video-thumbnail-card-icon">
+                                                                <a href="" class="btn-delete-video btn btn-danger"
+                                                                   type="button"
+                                                                   onclick="return confirm('Etes-vous sûr ?');">
+                                                                    <span class="fas fa-trash-alt"></span>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="mb-3 btn btn-primary btn-add-videos" id="add_videos">
+                                Ajouter une autre vidéo
+                            </button>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success mt-3">Valider</button>
+                    {{ form_end(form, {'render_rest': false}) }}
+                </div>
+            </div>
+        </div>
+        <a href="{{ path('home') }}" type="button" class="btn-add-picture btn btn-info">
+            <span class="fas fa-angle-double-left"></span>
+            Retour à la liste des figures
+        </a>
+    </section>
+{% endblock %}
+{% block form_row %}
+    <div class="mb-3 edit-trick-form-row">
+        <label class="font-weight-bold text-info">
+            {{ form_label(form) }}
+        </label>
+        {{ form_widget(form) }}
+        <div class="add-trick-form-error">
+            {{ form_errors(form) }}
+        </div>
+    </div>
+{% endblock %}
+{% block _trick_pictures_row %}
+    {{ form_widget(form) }}
+    <button type="button" class="btn-add-picture" id="add_picture">Ajouter une autre photo</button>
+{% endblock %}
+{% block _trick_pictures_entry_widget %}
+    <div class="modal-none">
+        <div class="edit-trick-content-form-entry">
+            {{ form_label(form.file) }}
+            {{ form_widget(form.file) }}
+            <div class="edit-trick-content-form-error">
+                {{ form_errors(form.file) }}
+            </div>
+        </div>
+        <div class="edit-trick-content-form-entry">
+            {{ form_label(form.caption) }}
+            {{ form_widget(form.caption) }}
+            <div class="edit-trick-content-form-error">
+                {{ form_errors(form.caption) }}
+            </div>
+        </div>
+        <button type="button" class="btn-delete-picture fas fa-trash-alt"></button>
+    </div>
+{% endblock %}
+{% block _trick_videos_row %}
+    {{ form_widget(form) }}
+    <button type="button" class="btn-add-video" id="add_video">Ajouter une autre vidéo
+    </button>{% endblock %}{% block _trick_videos_entry_widget %}
+    <div class="modal-none">
+        <div class="edit-trick-content-form-entry">
+            {{ form_label(form.url) }}
+            {{ form_widget(form.url) }}
+            <div class="edit-trick-content-form-error">
+                {{ form_errors(form.url) }}
+            </div>
+        </div>
+        <div class="edit-trick-content-form-entry">
+            {{ form_label(form.name) }}
+            {{ form_widget(form.name) }}
+            <div class="edit-trick-content-form-error">
+                {{ form_errors(form.name) }}
+            </div>
+        </div>
+        <button type="button" class="btn-delete-video fas fa-trash-alt"></button>
+    </div>
+{% endblock %}
