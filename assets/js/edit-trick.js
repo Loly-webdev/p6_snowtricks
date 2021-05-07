@@ -5,10 +5,10 @@
     let indexPicture = containerPicture.querySelectorAll('.edit-trick-content-form-row').length;
     let indexVideo = containerVideo.querySelectorAll('.edit-trick-content-form-row').length;
 
-    if (indexPicture === 0) {
+    if (indexPicture == 0) {
         addPictureForm(containerPicture);
     }
-    if (indexVideo === 0) {
+    if (indexVideo == 0) {
         addVideoForm(containerVideo);
     }
     const createModalPicture = function() {

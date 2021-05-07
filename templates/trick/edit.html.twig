@@ -57,6 +57,7 @@
                                                 </figcaption>
                                                 <img src="{{ asset('uploads/pictures/' ~ picture.path) }}"
                                                      class="img-fluid"
+                                                     width="200"
                                                      alt="">
                                             </figure>
                                             <div class="card-body">
@@ -82,38 +83,38 @@
                             <div class="edit-trick-content-video-title">
                                 <h3 class="mx-auto mt-5 border-bottom border-top w-50">Vidéos</h3>
                             </div>
-                        {% if trick.videos is not empty %}
-                                <div class="edit-trick-content-video-thumbnail row row-cols-1 row-cols-md-3">
-                                    {% for video in trick.videos %}
-                                        <div class="col my-4">
-                                            <div class="card h-100">
-                                                <div class="edit-trick-content-video-thumbnail-card card-img-top text-center ">
-                                                    <iframe width="200" height="150" src="{{ video.url }}"
-                                                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                                                            allowfullscreen></iframe>
-                                                </div>
-                                                <div class="card-body">
-                                                    <p>URL :
-                                                        <a href="{{ video.url }}" class="card-title">
-                                                            {{ video.url }}
-                                                        </a>
-                                                    </p>
-                                                </div>
-                                                <div class="card-footer">
-                                                    <div class="edit-trick-content-video-thumbnail-card-icon">
-                                                        <a href="#" class="js-modal-video fas fa-edit btn btn-primary"
-                                                           type="button"></a>
-                                                        <a class="btn-delete-video fas fa-trash-alt btn btn-danger"
-                                                           type="button" href="#"
-                                                           data-id="7">
-                                                        </a>
-                                                    </div>
+                            {% if trick.videos is not empty %}
+                            <div class="edit-trick-content-video-thumbnail row row-cols-1 row-cols-md-3">
+                                {% for video in trick.videos %}
+                                    <div class="col my-4">
+                                        <div class="card h-100">
+                                            <div class="edit-trick-content-video-thumbnail-card card-img-top text-center ">
+                                                <iframe width="200" height="150" src="{{ video.url }}"
+                                                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                                        allowfullscreen></iframe>
+                                            </div>
+                                            <div class="card-body">
+                                                <p>URL :
+                                                    <a href="{{ video.url }}" class="card-title">
+                                                        {{ video.url }}
+                                                    </a>
+                                                </p>
+                                            </div>
+                                            <div class="card-footer">
+                                                <div class="edit-trick-content-video-thumbnail-card-icon">
+                                                    <a href="#" class="js-modal-video fas fa-edit btn btn-primary"
+                                                       type="button"></a>
+                                                    <a class="btn-delete-video fas fa-trash-alt btn btn-danger"
+                                                       type="button" href="#"
+                                                       data-id="7">
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
-                                    {% endfor %}
-                                </div>
+                                    </div>
+                                {% endfor %}
                             </div>
+                        </div>
                         {% endif %}
                         {{ form_row(form.videos) }}
                     </div>
@@ -176,7 +177,7 @@
     <button type="button" class="btn-add-video btn btn-primary mb-3" id="add_video">
         Ajouter une autre vidéo
     </button>
-    {% endblock %}{% block _trick_videos_entry_widget %}
+{% endblock %}{% block _trick_videos_entry_widget %}
     <div class="modal-none">
         <div class="edit-trick-content-form-entry">
             {{ form_label(form.url) }}
