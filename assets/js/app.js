@@ -6,7 +6,6 @@
  */
 
 // any CSS you import will output into a single css file (base.css in this case)
-import '../styles/base.css';
 import '../styles/app.scss';
 
 const $ = require('jquery');

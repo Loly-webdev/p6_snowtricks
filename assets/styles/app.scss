@@ -1,8 +1,9 @@
 // the ~ allows you to reference things in node_modules
 @import "~bootstrap/scss/bootstrap";
 
-// Fontawesome
-@import '~@fortawesome/fontawesome-free/css/all.css';
-
 // css de base
 @import 'base';
+@import 'custom';
+
+// Fontawesome
+@import '~@fortawesome/fontawesome-free/css/all.css';

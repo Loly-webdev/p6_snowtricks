@@ -1,4 +1,4 @@
-window.onload = () => {
+(function () {
     const containerPicture = document.getElementById('trick_pictures');
     const containerVideo = document.getElementById('trick_videos');
 
@@ -11,8 +11,8 @@ window.onload = () => {
     if (indexVideo === 0) {
         addVideoForm(containerVideo);
     }
-    const createModalPicture = () => {
-        const btn = '<button type="button" class="js-modal-close"><i class="fas fa-times"></i></button>';
+    const createModalPicture = function() {
+        const btn = '<button type="button" class="js-modal-close">X</button>';
         const formRow = containerPicture.querySelectorAll('.edit-trick-content-form-row');
         const elModal = document.querySelectorAll('.js-modal-picture');
         const modalWrapper = containerPicture.querySelectorAll('.modal-none');
@@ -33,8 +33,8 @@ window.onload = () => {
         }
 
     }
-    const createModalVideo = () => {
-        const btn = '<button type="button" class="js-modal-close"><i class="fas fa-times"></i></button>';
+    const createModalVideo = function() {
+        const btn = '<button type="button" class="js-modal-close">X</button>';
         const formRow = containerVideo.querySelectorAll('.edit-trick-content-form-row');
         const elModal = document.querySelectorAll('.js-modal-video');
         const modalWrapper = containerVideo.querySelectorAll('.modal-none');
@@ -55,7 +55,6 @@ window.onload = () => {
         }
 
     }
-
     createModalPicture();
     createModalVideo();
 
@@ -70,13 +69,13 @@ window.onload = () => {
     })
 
     function addRemoveBtn() {
-        document.querySelectorAll('button.btn-delete-picture').forEach((element) => {
+        document.querySelectorAll('button.btn-delete-picture.fas.fa-trash-alt').forEach((element) => {
             element.addEventListener('click', function(event) {
                 event.preventDefault();
                 this.parentNode.parentNode.remove();
             })
         })
-        document.querySelectorAll('button.btn-delete-video').forEach((element) => {
+        document.querySelectorAll('button.btn-delete-video.fas.fa-trash-alt').forEach((element) => {
             element.addEventListener('click', function (event) {
                 event.preventDefault();
                 this.parentNode.parentNode.remove();
@@ -101,7 +100,7 @@ window.onload = () => {
     }
 
     let modal = null;
-    const openModal = (event) => {
+    const openModal = function (event) {
         event.preventDefault()
         let target = document.querySelector(event.target.getAttribute("href"));
         target.querySelector('.fas.fa-trash-alt').style.display = "none";
@@ -135,4 +134,36 @@ window.onload = () => {
     document.querySelectorAll('.js-modal-video').forEach(a => {
         a.addEventListener('click', openModal);
     })
-};
+    const btnDeletePicture = document.querySelectorAll('.btn-delete-picture.fas.fa-trash-alt');
+    for (let i = 0; i < btnDeletePicture.length; i++) {
+        btnDeletePicture[i].setAttribute("href", "#modal-picture-" + i);
+    }
+    const btnDeleteVideo = document.querySelectorAll('.btn-delete-video.fas.fa-trash-alt');
+    for (let i = 0; i < btnDeleteVideo.length; i++) {
+        btnDeleteVideo[i].setAttribute("href", "#modal-video-" + i);
+    }
+
+    btnDeleteVideo.forEach((element) => {
+        element.addEventListener('click', function (event) {
+            let target = document.querySelector(event.target.getAttribute("href"));
+            event.preventDefault();
+            if(target) {
+                target.remove();
+            }
+            this.parentNode.parentNode.remove();
+        })
+    })
+
+    btnDeletePicture.forEach((element) => {
+        element.addEventListener('click', function (event) {
+            let target = document.querySelector(event.target.getAttribute("href"));
+            event.preventDefault();
+            if(target) {
+                target.remove();
+            }
+            this.parentNode.parentNode.remove();
+        })
+    })
+
+
+})()
