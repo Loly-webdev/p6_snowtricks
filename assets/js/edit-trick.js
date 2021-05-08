@@ -5,14 +5,14 @@
     let indexPicture = containerPicture.querySelectorAll('.edit-trick-content-form-row').length;
     let indexVideo = containerVideo.querySelectorAll('.edit-trick-content-form-row').length;
 
-    if (indexPicture == 0) {
+    if (indexPicture === 0) {
         addPictureForm(containerPicture);
     }
-    if (indexVideo == 0) {
+    if (indexVideo === 0) {
         addVideoForm(containerVideo);
     }
     const createModalPicture = function() {
-        const btn = '<button type="button" class="js-modal-close">X</button>';
+        const btn = '<button type="button" class="js-modal-close btn btn-danger"><span class="fas fa-times"></span></span></button>';
         const formRow = containerPicture.querySelectorAll('.edit-trick-content-form-row');
         const elModal = document.querySelectorAll('.js-modal-picture');
         const modalWrapper = containerPicture.querySelectorAll('.modal-none');
@@ -34,7 +34,7 @@
 
     }
     const createModalVideo = function() {
-        const btn = '<button type="button" class="js-modal-close">X</button>';
+        const btn = '<button type="button" class="js-modal-close mt-5 btn btn-danger"><span class="fas fa-times"></span></button>';
         const formRow = containerVideo.querySelectorAll('.edit-trick-content-form-row');
         const elModal = document.querySelectorAll('.js-modal-video');
         const modalWrapper = containerVideo.querySelectorAll('.modal-none');

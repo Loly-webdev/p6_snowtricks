@@ -28,7 +28,7 @@ btnDeleteVideo.forEach((element) => {
     element.addEventListener('click', function (e) {
         let target = document.querySelector(e.target.getAttribute("href"));
         e.preventDefault();
-        if (confirm("Do you realy want to delete this video ?!!")) {
+        if (confirm("Voulez vous vraiment supprimer cette video ?")) {
             target.remove();
             this.parentNode.parentNode.remove();
         } else {
