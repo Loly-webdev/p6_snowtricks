@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
@@ -10,6 +11,9 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class UploaderHelper
 {
+    /**
+     * @var string
+     */
     private string $uploadsPath;
 
     /**
@@ -41,4 +45,17 @@ class UploaderHelper
 
         return $newFilename;
     }
+
+    /**
+     * @param string $oldFileName
+     */
+    public function removeFile(string $oldFileName): void
+    {
+        try {
+            unlink($this->uploadsPath.'/'. $oldFileName);
+        } catch (FileException $e) {
+            // ... handle exception if something happens during file upload
+        }
+    }
+
 }

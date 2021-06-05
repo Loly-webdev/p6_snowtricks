@@ -12,7 +12,7 @@
         addVideoForm(containerVideo);
     }
     const createModalPicture = function() {
-        const btn = '<button type="button" class="js-modal-close btn btn-danger"><span class="fas fa-times"></span></span></button>';
+        const btn = '<button type="button" class="js-modal-close btn btn-danger mb-3"><span class="fas fa-times"></span></span></button>';
         const formRow = containerPicture.querySelectorAll('.edit-trick-content-form-row');
         const elModal = document.querySelectorAll('.js-modal-picture');
         const modalWrapper = containerPicture.querySelectorAll('.modal-none');

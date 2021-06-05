@@ -3,9 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Comment;
+use App\Entity\Picture;
 use App\Entity\Trick;
+use App\Entity\Video;
 use App\Form\CommentType;
 use App\Form\TrickType;
+use App\Form\VideoType;
+use App\Repository\CommentRepository;
 use App\Service\Paginator;
 use App\Service\UploaderHelper;
 use DateTime;
@@ -14,6 +18,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -106,6 +111,8 @@ class TrickController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $comment->setTrick($trick);
+
+            $comment = $form->getData();
             $comment->setUser($this->getUser());
 
             $this->manager->persist($comment);
@@ -137,63 +144,32 @@ class TrickController extends AbstractController
 
     /**
      * @Route("/trick/{slug}/edit", name="trick_edit", methods={"GET","POST"})
-     * @param Request        $request
-     * @param Trick          $trick
-     * @param UploaderHelper $uploaderHelper
+     * @param Request $request
+     * @param Trick   $trick
      *
      * @return Response
      */
-    public function edit(Request $request, Trick $trick, UploaderHelper $uploaderHelper): Response
+    public function edit(Request $request, Trick $trick): Response
     {
-        $originalPictures = new ArrayCollection();
-        $originalVideos   = new ArrayCollection();
-
         $form = $this->createForm(TrickType::class, $trick);
+
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()) {
-            foreach ($originalPictures as $picture) {
-                if (false === $trick->getPictures()->contains($picture)) {
-                    $picture->getTrick()->removeElement($trick);
-                    $this->manager->persist($picture);
-                }
-            }
 
-            $pictures = $form['pictures']->getData();
-            foreach($pictures as $picture) {
-                $uploadedFile = $picture->getFile();
-                if($uploadedFile) {
-                    $newFilename = $uploaderHelper->uploadPicture($uploadedFile, 'pictures');
-                    $picture->setPath($newFilename);
-                }
-                $picture->setTrick($trick);
-                $this->manager->persist($picture);
-            }
-
-            foreach ($originalVideos as $video) {
-                if (false === $trick->getVideos()->contains($video)) {
-                    $video->getTrick()->removeElement($trick);
-                    $this->manager->persist($video);
-                }
-            }
-
-            $videos = $form['videos']->getData();
-            foreach($videos as $video) {
-                $video->setTrick($trick);
-                $this->manager->persist($video);
-            }
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $trick->setUpdatedAt(new DateTime());
-            $this->manager->persist($trick);
             $this->manager->flush();
-            $this->addFlash('success', "La figure a bien été modifié.");
-            return $this->redirectToRoute('trick_show', [
-                'slug' => $trick->getSlug()
+            $this->addFlash('success', 'Trick modifié avec succès');
+            return $this->redirectToRoute('trick_edit', [
+                'id' => $trick->getId(),
             ]);
         }
+
         return $this->render('trick/edit.html.twig', [
-            'controller_name' => 'TrickController',
             'trick' => $trick,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'videos' => $trick->getVideos(),
+            'pictures' => $trick->getPictures()
         ]);
     }
 
@@ -217,5 +193,117 @@ class TrickController extends AbstractController
 
         $this->addFlash('success', "La figure {$trick->getName()} a bien été supprimé.");
         return $this->redirectToRoute('home');
+    }
+
+    /**
+     * @Route("/{category}/{id}/{comment<\d+>?5}", name="load_more_comment")
+     */
+    public function loadMoreComment(CommentRepository $commentRepository, $comment = 5, Trick $trick): Response
+    {
+        return $this->render('trick/loadMoreComments.html.twig', [
+                'comments' => $commentRepository->findAllByTrick($trick->getId(), $comment)
+            ]
+        );
+    }
+
+    /**
+     * @Route("/trick/modifier-trick/modifier-photo/{id}", name="trick_add_picture")
+     * @param Trick          $trick
+     * @param Request        $request
+     * @param UploaderHelper $fileUploader
+     *
+     * @return Response
+     */
+    public function editDefaultPicture(Trick $trick, Request $request, UploaderHelper $fileUploader): Response
+    {
+        $form = $this->createForm(TrickType::class, $trick);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $trick = $form->getData();
+
+            if ($trick->getDefaultPicture() !== null) {
+                if ($trick->getDefaultPicture() === 'NULL') {
+                    $fileUploader->removeFile($trick->getNameDefaultPicture());
+                }
+                $trick->setModifiedAt(new \DateTime());
+                $defaultPicture = $trick->getDefaultPicture();
+                $fileName = $fileUploader->uploadPicture($defaultPicture, 'picture');
+                $trick->setNameDefaultPicture($fileName);
+            }
+
+            $this->manager->flush();
+
+            $this->addFlash('success', 'Photo à la une changée avec succès');
+            return $this->redirectToRoute('trick_edit', [
+                'id' => $trick->getId()
+            ]);
+        }
+
+        return $this->render('trick/edition/addPictureTrick.html.twig', [
+            'trick' => $trick,
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/trick/modifier-trick/photo/{id}", name="trick_edit_picture")
+     * @param Picture        $pictureTrick
+     * @param Request        $request
+     * @param UploaderHelper $fileUploader
+     *
+     * @return Response
+     */
+    public function editPicture(Picture $pictureTrick, Request $request, UploaderHelper $fileUploader): Response
+    {
+        $form = $this->createForm(TrickType::class, $pictureTrick);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $fileUploader->removeFile($pictureTrick->getPath());
+            $pictureTrick = $form->getData();
+            $file = $pictureTrick->getFile();
+            $fileName = $fileUploader->uploadPicture($file, 'picture');
+            $pictureTrick->setName($fileName);
+
+            $this->manager->flush();
+            $this->addFlash('success', 'Photo changée avec succès');
+            return $this->redirectToRoute('trick_edit', [
+                'id' => $pictureTrick->getId()
+            ]);
+        }
+
+        return $this->render('trick/edition/editPictureTrick.html.twig', [
+            'pictureTrick' => $pictureTrick,
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/trick/modifier-trick/video/{id}", name="trick_edit_video")
+     * @param Video   $videoTrick
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function editVideo(Video $videoTrick, Request $request): Response
+    {
+        $form = $this->createForm(VideoType::class, $videoTrick);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $videoTrick = $form->getData();
+            $this->manager->flush();
+            $this->addFlash('success', 'Vidéo changée avec succès');
+            return $this->redirectToRoute('trick_edit', [
+                'id' => $videoTrick->getId()
+            ]);
+        }
+
+        return $this->render('trick/edition/editVideoTrick.html.twig', [
+            'videoTrick' => $videoTrick,
+            'form' => $form->createView()
+        ]);
     }
 }

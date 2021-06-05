@@ -125,15 +125,14 @@ class Trick
      *
      * @return string
      */
-    public function slugify(string $string, $delimiter = '-'): string
+    public function slugify(string $string, string $delimiter = '-'): string
     {
         $stringClean = iconv('UTF-8', 'ASCII//TRANSLIT', $string);
         $stringClean = preg_replace("/[^a-zA-Z0-9\/_|+ -]/", '', $stringClean);
         $stringClean = strtolower($stringClean);
         $stringClean = preg_replace("/[\/_|+ -]+/", $delimiter, $stringClean);
-        $stringClean = trim($stringClean, $delimiter);
 
-        return $stringClean;
+        return trim($stringClean, $delimiter);
     }
 
     /**
