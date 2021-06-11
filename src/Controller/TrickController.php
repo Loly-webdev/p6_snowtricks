@@ -58,7 +58,6 @@ class TrickController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $pictures = $form['pictures']->getData();
             foreach ($pictures as $picture) {
                 $uploadedFile = $picture->getFile();

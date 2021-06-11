@@ -25,13 +25,10 @@ class PictureType extends ApplicationType
         unset($options);
         $builder
             ->add(
-                'pictures',
+                'file',
                 FileType::class,
                 [
-                'label' => false,
-                'multiple' => true,
-                'mapped' => false,
-                'required' => false
+                    'required' => false,
                 ]
             )
             ->add(
