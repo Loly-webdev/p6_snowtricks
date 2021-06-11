@@ -50,16 +50,26 @@
         </div>
         <div class="add-trick-form-entry">
             <label class="font-weight-bold text-info">
-                {{ form_label(form.file) }}
+                {{ form_label(form.pictures) }}
             </label>
-            {{ form_widget(form.file, {
+            {{ form_widget(form.pictures, {
                 attr: {
                     'placeholder': 'Selectionner une photo'
                 }
             }) }}
             <div class="add-trick-form-error">
-                {{ form_errors(form.file) }}
+                {{ form_errors(form.pictures) }}
             </div>
+            <style>
+                #preview{
+                    width: 200px;
+                    display: inline-block;
+                }
+                #preview img{
+                    width: 100%;
+                }
+            </style>
+            <span id="preview"></span>
         </div>
         <button type="button" class="mt-3 btn-delete-picture btn btn-danger">
             <span class="fas fa-trash-alt"></span>
