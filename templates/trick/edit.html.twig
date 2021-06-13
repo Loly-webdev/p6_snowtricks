@@ -3,6 +3,7 @@
 {% form_theme form _self %}
 {% block content %}
     <section class="edit-trick container mt-4 text-center">
+        {% set edit_url = path('trick_edit', {'slug':trick.slug}) %}
         <div class="edit-trick-title">
             <h2>Modification de la figure :
                 <strong class="text-primary">{{ trick.name }}</strong>
@@ -19,6 +20,8 @@
             {% if trick.pictures is not empty %}
             <div class="edit-trick-content-picture">
                 {% for picture in trick.pictures %}
+                {% set edit_picture_url = path('trick_edit_picture', {id: picture.id}) %}
+                {% set delete_url = path('trick_delete_picture', {id: picture.id}) %}
                 {% if loop.first %}
                 <div class="card h-100">
                     <figure class="edit-trick-content-picture-featured card-img-top text-center ">
@@ -30,9 +33,9 @@
                              alt="">
                     </figure>
                     <div class="edit-trick-content-picture-featured-icon card-footer">
-                        <a href="" class="js-modal-picture fas fa-edit btn btn-primary" type="button"></a>
-                        <a class="btn-delete-picture fas fa-trash-alt btn btn-danger" type="button" href="#"
-                           data-id="">
+                        <a href="{{ edit_picture_url }}" class="js-modal-picture fas fa-edit btn btn-primary" type="button"></a>
+                        <a href="{{ delete_url }}" class="btn-delete-picture fas fa-trash-alt btn btn-danger" type="button"
+                           onclick="return confirm('Etes-vous sûr de vouloir supprimer cette images ?');">
                         </a>
                     </div>
                     {% endif %}
@@ -48,6 +51,8 @@
                         </div>
                         <div class="edit-trick-content-picture-thumbnail row row-cols-1 row-cols-md-3">
                             {% for picture in trick.pictures %}
+                                {% set edit_picture_url = path('trick_edit_picture', {id: picture.id}) %}
+                                {% set delete_url = path('trick_delete_picture', {id: picture.id}) %}
                                 {% if not loop.first %}
                                     <div class="col my-4">
                                         <div class="card h-100">
@@ -66,11 +71,10 @@
                                                 </h5>
                                             </div>
                                             <div class="edit-trick-content-picture-thumbnail-figure-icon card-footer">
-                                                <a href="" class="js-modal-picture fas fa-edit btn btn-primary"
+                                                <a href="{{ edit_picture_url }}" class="js-modal-picture fas fa-edit btn btn-primary"
                                                    type="button"></a>
-                                                <a class="btn-delete-picture fas fa-trash-alt btn btn-danger"
-                                                   type="button" href="#"
-                                                   data-id="">
+                                                <a href="{{ delete_url }}" class="btn-delete-picture fas fa-trash-alt btn btn-danger" type="button"
+                                                   onclick="return confirm('Etes-vous sûr de vouloir supprimer cette images ?');">
                                                 </a>
                                             </div>
                                         </div>

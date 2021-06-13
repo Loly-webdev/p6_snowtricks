@@ -18,6 +18,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -160,7 +161,7 @@ class TrickController extends AbstractController
             $this->manager->flush();
             $this->addFlash('success', 'Trick modifié avec succès');
             return $this->redirectToRoute('trick_edit', [
-                'id' => $trick->getId(),
+                'slug' => $trick->getSlug()
             ]);
         }
 
@@ -192,6 +193,35 @@ class TrickController extends AbstractController
 
         $this->addFlash('success', "La figure {$trick->getName()} a bien été supprimé.");
         return $this->redirectToRoute('home');
+    }
+
+    /**
+     * @Route("/trick/delete/image/{id}", name="trick_delete_picture", methods={"DELETE"})
+     * @param Picture $picture
+     * @param Request $request
+     *
+     *
+     * @return JsonResponse
+     */
+    public function deletePicture(Picture $picture, Request $request): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        // On verifie si le token est valide
+        if($this->isCsrfTokenValid('delete' . $picture->getId(), $data['_token'])) {
+            // on recupere le nom de l'image
+            $name = $picture->getPath();
+            // on supprime le fichier
+            unlink($this->getParameter('pictures_directory') . '/' . $name);
+            // on supprime l'entrée de la base
+            $this->manager->remove($picture);
+            $this->manager->flush();
+
+            // on repond en json
+            return new JsonResponse(['success' => 1]);
+        }
+
+        return new JsonResponse(['error' => 'Token invalide'], 400);
     }
 
     /**
@@ -247,7 +277,7 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("/trick/modifier-trick/photo/{id}", name="trick_edit_picture")
+     * @Route("/trick/modifier/image/{id}", name="trick_edit_picture")
      * @param Picture        $pictureTrick
      * @param Request        $request
      * @param UploaderHelper $fileUploader
@@ -273,7 +303,7 @@ class TrickController extends AbstractController
             ]);
         }
 
-        return $this->render('trick/edition/editPictureTrick.html.twig', [
+        return $this->render('trick/edit_picture.html.twig', [
             'pictureTrick' => $pictureTrick,
             'form' => $form->createView()
         ]);

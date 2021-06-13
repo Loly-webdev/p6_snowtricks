@@ -5,8 +5,25 @@
 {% if app.request.attributes.get('_route') == 'trick_edit' %}
     <h2>Images</h2>
     {% for picture in trick.pictures %}
+         {% if loop.first %}
+<div class="card h-100">
+    <figure class="edit-trick-content-picture-featured card-img-top text-center ">
+        <figcaption class="card-header">
+            {{ picture.caption }}
+        </figcaption>
+        <img class="img-fluid"
+             src="{{ asset('uploads/pictures/' ~ picture.path) }}"
+             alt="">
+    </figure>
+    <div class="edit-trick-content-picture-featured-icon card-footer">
+        <a href="" class="js-modal-picture fas fa-edit btn btn-primary" type="button"></a>
+        <a class="btn-delete-picture fas fa-trash-alt btn btn-danger" type="button" href="#"
+           data-id="">
+        </a>
+    </div>
+    {% endif %}
         <div>
-            <img src="{{ asset('/uploads/pictures' ~ picture.filename) }}" alt="Image" width="150">
+            <img src="{{ asset('/uploads/pictures' ~ picture.path) }}" alt="Image" width="150">
             <a href="{{ path('trick_delete_picture', {id: picture.id}) }}"
                data-delete data-token="{{ csrf_token('delete' ~ picture.id) }}">
                 Supprimer
