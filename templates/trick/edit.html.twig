@@ -17,6 +17,9 @@
         </div>
         <div class="edit-trick-content mt-3 mb-5 border p-3">
             {% if trick.pictures is not empty %}
+            <div class="edit-trick-content-picture-title">
+                <h3 class="mx-auto border-bottom border-top w-50">Photos</h3>
+            </div>
             <div class="edit-trick-content-picture">
                 {% for picture in trick.pictures %}
                 {% set edit_picture_url = path('trick_edit_picture', {id: picture.id}) %}
@@ -38,9 +41,6 @@
                     <input type="checkbox" hidden class="edit-trick-content-more-state" id="read-more">
                     <div class="edit-trick-content-more-target">
                         {{ form_start(form, { "attr": { "class": "edit-trick-content-form"} }) }}
-                        <div class="edit-trick-content-picture-title">
-                            <h3 class="mx-auto mt-5 border-bottom border-top w-50">Photos</h3>
-                        </div>
                         <div class="edit-trick-content-picture-thumbnail row row-cols-1 row-cols-md-3">
                             {% for picture in trick.pictures %}
                                 {% set edit_picture_url = path('trick_edit_picture', {id: picture.id}) %}
@@ -53,7 +53,7 @@
                                                 </figcaption>
                                                 <img src="{{ asset('uploads/pictures/' ~ picture.path) }}"
                                                      class="img-fluid"
-                                                     width="100"
+                                                     width="200"
                                                      alt="">
                                             </figure>
                                         </div>
@@ -85,11 +85,9 @@
                                             </div>
                                             <div class="card-footer">
                                                 <div class="edit-trick-content-video-thumbnail-card-icon">
-                                                    <a href="#" class="js-modal-video fas fa-edit btn btn-primary"
-                                                       type="button"></a>
-                                                    <a class="btn-delete-video fas fa-trash-alt btn btn-danger"
-                                                       type="button" href="#"
-                                                       data-id="">
+                                                    <a href="" class="btn-delete-video btn btn-danger" type="button"
+                                                       onclick="return confirm('Etes-vous sûr ?');">
+                                                        <span class="fas fa-trash-alt"></span>
                                                     </a>
                                                 </div>
                                             </div>
@@ -139,13 +137,7 @@
 {% block _trick_pictures_entry_widget %}
     <div class="modal-none">
         <div class="edit-trick-content-form-entry">
-            {{ form_label(form.file) }}
-            {{ form_widget(form.file) }}
-            <div class="edit-trick-content-form-error">
-                {{ form_errors(form.file) }}
-            </div>
-        </div>
-        <div class="edit-trick-content-form-entry">
+            <span class="fas fa-edit"></span>
             {{ form_label(form.caption) }}
             {{ form_widget(form.caption) }}
             <div class="edit-trick-content-form-error">
@@ -162,13 +154,7 @@
 {% endblock %}{% block _trick_videos_entry_widget %}
     <div class="modal-none">
         <div class="edit-trick-content-form-entry">
-            {{ form_label(form.url) }}
-            {{ form_widget(form.url) }}
-            <div class="edit-trick-content-form-error">
-                {{ form_errors(form.url) }}
-            </div>
-        </div>
-        <div class="edit-trick-content-form-entry">
+            <span class="fas fa-edit"></span>
             {{ form_label(form.name) }}
             {{ form_widget(form.name) }}
             <div class="edit-trick-content-form-error">
