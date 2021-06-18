@@ -2,8 +2,7 @@
 {% block title %}Modification d'une figure{% endblock %}
 {% form_theme form _self %}
 {% block content %}
-    <section class="edit-trick container mt-4 text-center">
-        {% set edit_url = path('trick_edit', {'slug':trick.slug}) %}
+    <section class="edit-trick container mt-4 text-center" id="edit">
         <div class="edit-trick-title">
             <h2>Modification de la figure :
                 <strong class="text-primary">{{ trick.name }}</strong>
@@ -21,7 +20,6 @@
             <div class="edit-trick-content-picture">
                 {% for picture in trick.pictures %}
                 {% set edit_picture_url = path('trick_edit_picture', {id: picture.id}) %}
-                {% set delete_url = path('trick_delete_picture', {id: picture.id}) %}
                 {% if loop.first %}
                 <div class="card h-100">
                     <figure class="edit-trick-content-picture-featured card-img-top text-center ">
@@ -32,12 +30,6 @@
                              src="{{ asset('uploads/pictures/' ~ picture.path) }}"
                              alt="">
                     </figure>
-                    <div class="edit-trick-content-picture-featured-icon card-footer">
-                        <a href="{{ edit_picture_url }}" class="js-modal-picture fas fa-edit btn btn-primary" type="button"></a>
-                        <a href="{{ delete_url }}" class="btn-delete-picture fas fa-trash-alt btn btn-danger" type="button"
-                           onclick="return confirm('Etes-vous sûr de vouloir supprimer cette images ?');">
-                        </a>
-                    </div>
                     {% endif %}
                     {% endfor %}
                 </div>
@@ -52,7 +44,6 @@
                         <div class="edit-trick-content-picture-thumbnail row row-cols-1 row-cols-md-3">
                             {% for picture in trick.pictures %}
                                 {% set edit_picture_url = path('trick_edit_picture', {id: picture.id}) %}
-                                {% set delete_url = path('trick_delete_picture', {id: picture.id}) %}
                                 {% if not loop.first %}
                                     <div class="col my-4">
                                         <div class="card h-100">
@@ -62,21 +53,9 @@
                                                 </figcaption>
                                                 <img src="{{ asset('uploads/pictures/' ~ picture.path) }}"
                                                      class="img-fluid"
-                                                     width="200"
+                                                     width="100"
                                                      alt="">
                                             </figure>
-                                            <div class="card-body">
-                                                <h5 class="card-title">
-                                                    <em class="text-muted h6">{{ picture.path }}</em>
-                                                </h5>
-                                            </div>
-                                            <div class="edit-trick-content-picture-thumbnail-figure-icon card-footer">
-                                                <a href="{{ edit_picture_url }}" class="js-modal-picture fas fa-edit btn btn-primary"
-                                                   type="button"></a>
-                                                <a href="{{ delete_url }}" class="btn-delete-picture fas fa-trash-alt btn btn-danger" type="button"
-                                                   onclick="return confirm('Etes-vous sûr de vouloir supprimer cette images ?');">
-                                                </a>
-                                            </div>
                                         </div>
                                     </div>
                                 {% endif %}
@@ -173,7 +152,6 @@
                 {{ form_errors(form.caption) }}
             </div>
         </div>
-        <button type="button" class="btn-delete-picture fas fa-trash-alt btn btn-danger my-3"></button>
     </div>
 {% endblock %}
 {% block _trick_videos_row %}
@@ -197,6 +175,5 @@
                 {{ form_errors(form.name) }}
             </div>
         </div>
-        <button type="button" class="btn-delete-video fas fa-trash-alt btn btn-danger my-3"></button>
     </div>
 {% endblock %}

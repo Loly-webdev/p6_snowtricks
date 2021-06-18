@@ -32,7 +32,7 @@ $(document).ready(function () {
     } else {
         // Adding a delete link
         $containerPicture.children('div').each(function () {
-            addDeleteLink($(this));
+            addDeleteLinkPicture($(this));
         });
     }
 
@@ -56,7 +56,7 @@ $(document).ready(function () {
     // To add a delete link
     function addDeleteLinkPicture($prototype) {
         // Link creation
-        let $deleteLinkPicture = $('<button type="button" class="btn-delete-picture">X</button>');
+        let $deleteLinkPicture = $('<a href="{{ path(\'trick_delete_picture\', {id: picture.id}) }}" class="btn-delete-picture fas fa-trash-alt btn btn-danger my-3" type="button"></a>');
 
         // Added link
         $prototype.append($deleteLinkPicture);
@@ -111,7 +111,7 @@ $(document).ready(function () {
     // To add a delete link
     function addDeleteLinkVideo($prototype) {
         // Link creation
-        let $deleteLinkVideo = $('<button type="button" class="btn-delete-video">X</button>');
+        let $deleteLinkVideo = $('<button type="button" class="btn-delete-video fas fa-trash-alt btn btn-danger my-3"></button>');
 
         // Added link
         $prototype.append($deleteLinkVideo);
